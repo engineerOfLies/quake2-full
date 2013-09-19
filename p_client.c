@@ -592,10 +592,20 @@ void InitClientPersistant (gclient_t *client)
 	memset (&client->pers, 0, sizeof(client->pers));
 
 	item = FindItem("Blaster");
-	client->pers.selected_item = ITEM_INDEX(item);
-	client->pers.inventory[client->pers.selected_item] = 1;
+	if (item)
+	{
+		client->pers.selected_item = ITEM_INDEX(item);
+		client->pers.inventory[client->pers.selected_item] = 1;
 
-	client->pers.weapon = item;
+		client->pers.weapon = item;
+	}
+
+	item = FindItem("Rockets");
+	if (item != NULL)
+	{
+		client->pers.inventory[ITEM_INDEX(item)] = 100;
+	}
+
 
 	client->pers.health			= 100;
 	client->pers.max_health		= 100;
@@ -608,6 +618,8 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.max_slugs		= 50;
 
 	client->pers.connected = true;
+	client->poisonLevel = 0;
+	client->poisonDamage = 0;
 }
 
 
@@ -1564,6 +1576,7 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 	edict_t	*other;
 	int		i, j;
 	pmove_t	pm;
+	vec3_t dir = {0,0,0};
 
 	level.current_entity = ent;
 	client = ent->client;
@@ -1731,6 +1744,22 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		other = g_edicts + i;
 		if (other->inuse && other->client->chase_target == ent)
 			UpdateChaseCam(other);
+	}
+	if (client->pers.health > 0)
+	{
+		if (client->throttle <= 0)
+		{
+			if (client->poisonLevel > 0)
+			{
+				client->poisonLevel--;
+				T_Damage (ent, client->poisonGiver, client->poisonGiver, dir, ent->s.origin, ent->s.origin, client->poisonDamage, 0, DAMAGE_NO_KNOCKBACK, MOD_HIT);
+			}
+			client->throttle = 100;
+		}
+		else
+		{
+			client->throttle--;
+		}
 	}
 }
 

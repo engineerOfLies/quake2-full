@@ -844,6 +844,7 @@ typedef struct
 	int			helpchanged;
 
 	qboolean	spectator;			// client is a spectator
+
 } client_persistant_t;
 
 // client data that stays across deathmatch respawns
@@ -941,6 +942,12 @@ struct gclient_s
 
 	edict_t		*chase_target;		// player we are chasing
 	qboolean	update_chase;		// need to update chase info?
+
+	int			poisonLevel;	//how much poison in system
+	int			poisonDamage;    //how much damage per poison think
+	edict_t     *poisonGiver;	// the last person to inflict poison
+	int			throttle;
+
 };
 
 
