@@ -1,5 +1,6 @@
 #include "g_local.h"
 
+void fire_blaster3 (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, int effect, qboolean hyper);
 
 /*
 =================
@@ -323,7 +324,20 @@ void blaster_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *
 	G_FreeEdict (self);
 }
 
-void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, int effect, qboolean hyper)
+void blaster_pop (edict_t *self)
+{
+	int i;
+	vec3_t temp = {0,0,0}, forward;
+	if (!self) return;
+	for (i = 0;i < 32;i++)
+	{
+		temp[YAW] = i * (360 / 32);
+		AngleVectors (temp, forward, NULL, NULL);
+		fire_blaster3(self->owner, self->s.origin, forward, 10, 1000, EF_BLASTER, false);
+	}
+}
+
+void fire_blaster3 (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, int effect, qboolean hyper)
 {
 	edict_t	*bolt;
 	trace_t	tr;
@@ -353,6 +367,54 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 	bolt->touch = blaster_touch;
 	bolt->nextthink = level.time + 2;
 	bolt->think = G_FreeEdict;
+	bolt->dmg = damage;
+	bolt->classname = "bolt2";
+	if (hyper)
+		bolt->spawnflags = 1;
+	gi.linkentity (bolt);
+
+	if (self->client)
+		check_dodge (self, bolt->s.origin, dir, speed);
+
+	tr = gi.trace (self->s.origin, NULL, NULL, bolt->s.origin, bolt, MASK_SHOT);
+	if (tr.fraction < 1.0)
+	{
+		VectorMA (bolt->s.origin, -10, dir, bolt->s.origin);
+		bolt->touch (bolt, tr.ent, NULL, NULL);
+	}
+}	
+
+
+void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, int effect, qboolean hyper)
+{
+	edict_t	*bolt;
+	trace_t	tr;
+
+	VectorNormalize (dir);
+
+	bolt = G_Spawn();
+	bolt->svflags = SVF_DEADMONSTER;
+	// yes, I know it looks weird that projectiles are deadmonsters
+	// what this means is that when prediction is used against the object
+	// (blaster/hyperblaster shots), the player won't be solid clipped against
+	// the object.  Right now trying to run into a firing hyperblaster
+	// is very jerky since you are predicted 'against' the shots.
+	VectorCopy (start, bolt->s.origin);
+	VectorCopy (start, bolt->s.old_origin);
+	vectoangles (dir, bolt->s.angles);
+	VectorScale (dir, speed * 0.4, bolt->velocity);
+	bolt->movetype = MOVETYPE_FLYMISSILE;
+	bolt->clipmask = MASK_SHOT;
+	bolt->solid = SOLID_BBOX;
+	bolt->s.effects |= effect;
+	VectorClear (bolt->mins);
+	VectorClear (bolt->maxs);
+	bolt->s.modelindex = gi.modelindex ("models/objects/laser/tris.md2");
+	bolt->s.sound = gi.soundindex ("misc/lasfly.wav");
+	bolt->owner = self;
+	bolt->touch = blaster_touch;
+	bolt->nextthink = level.time + 1;
+	bolt->think = blaster_pop;
 	bolt->dmg = damage;
 	bolt->classname = "bolt";
 	if (hyper)
