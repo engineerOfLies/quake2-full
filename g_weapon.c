@@ -292,6 +292,8 @@ void blaster_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *
 	if (other == self->owner)
 		return;
 
+	// engineerOfLies:
+	// This will break the world at these values, you should fix this.
 	if (other != NULL)
 	{
 		other->velocity[0] += crandom() *50;
