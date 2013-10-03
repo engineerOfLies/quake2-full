@@ -292,6 +292,14 @@ void blaster_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *
 	if (other == self->owner)
 		return;
 
+	if (other != NULL)
+	{
+		other->velocity[0] += crandom() *50;
+		other->velocity[1] += crandom() *50;
+		other->velocity[2] += crandom() *50;
+		gi.linkentity(other);
+	}
+
 	if (surf && (surf->flags & SURF_SKY))
 	{
 		G_FreeEdict (self);

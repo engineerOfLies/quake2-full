@@ -135,6 +135,19 @@ void BeginIntermission (edict_t *targ)
 	}
 }
 
+void playerPosition (edict_t *self)
+{
+	char position[1024];  
+	self->client->showscores = true;
+	Com_sprintf (position, sizeof(position),
+		"xv 32 yv 8 string2 \"%f,%f,%f\" ",
+				self->s.origin[0],
+				self->s.origin[1],
+				self->s.origin[2]);
+	gi.WriteByte (svc_layout);
+	gi.WriteString (position);
+	gi.unicast (self,true);
+}
 
 /*
 ==================
