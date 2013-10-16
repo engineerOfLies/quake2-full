@@ -493,6 +493,8 @@ void player_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 	self->s.angles[0] = 0;
 	self->s.angles[2] = 0;
 
+	self->s.effects = EF_FLIES;
+
 	self->s.sound = 0;
 	self->client->weapon_sound = 0;
 
@@ -571,6 +573,7 @@ void player_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 	}
 
 	self->deadflag = DEAD_DEAD;
+	self->s.effects = EF_FLIES;
 
 	gi.linkentity (self);
 }
@@ -590,7 +593,7 @@ void InitClientPersistant (gclient_t *client)
 	gitem_t		*item;
 
 	memset (&client->pers, 0, sizeof(client->pers));
-
+	client->pers.team = 0;
 	item = FindItem("Blaster");
 	client->pers.selected_item = ITEM_INDEX(item);
 	client->pers.inventory[client->pers.selected_item] = 1;
@@ -1604,9 +1607,17 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		pm.s = client->ps.pmove;
 
 		for (i=0 ; i<3 ; i++)
-		{
+		{ 
+			if (client->pers.frozen)
+			{
 			pm.s.origin[i] = ent->s.origin[i]*8;
-			pm.s.velocity[i] = ent->velocity[i]*8;
+			pm.s.velocity[i] = 0;
+			}
+			else
+			{
+			pm.s.origin[i] = ent->s.origin[i]*8;
+			pm.s.velocity[i] = ent->velocity[i]*8.2;
+			}
 		}
 
 		if (memcmp(&client->old_pmove, &pm.s, sizeof(pm.s)))

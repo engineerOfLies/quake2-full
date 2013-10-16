@@ -200,7 +200,7 @@ void DeathmatchScoreboardMessage (edict_t *ent, edict_t *killer)
 
 		// add a dogtag
 		if (cl_ent == ent)
-			tag = "tag1";
+			tag = "help";
 		else if (cl_ent == killer)
 			tag = "tag2";
 		else
@@ -208,7 +208,7 @@ void DeathmatchScoreboardMessage (edict_t *ent, edict_t *killer)
 		if (tag)
 		{
 			Com_sprintf (entry, sizeof(entry),
-				"xv %i yv %i picn %s ",x+32, y, tag);
+				"xv %i yv %i picn %s ",x+0, y, tag);
 			j = strlen(entry);
 			if (stringlength + j > 1024)
 				break;

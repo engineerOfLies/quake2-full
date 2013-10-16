@@ -539,18 +539,18 @@ void soldier_attack1_refire2 (edict_t *self)
 
 mframe_t soldier_frames_attack1 [] =
 {
-	ai_charge, 0,  NULL,
-	ai_charge, 0,  NULL,
 	ai_charge, 0,  soldier_fire1,
-	ai_charge, 0,  NULL,
-	ai_charge, 0,  NULL,
+	ai_charge, 0,  soldier_fire1,
+	ai_charge, 0,  soldier_fire1,
+	ai_charge, 0,  soldier_fire1,
+	ai_charge, 0,  soldier_fire1,
 	ai_charge, 0,  soldier_attack1_refire1,
-	ai_charge, 0,  NULL,
+	ai_charge, 0,  soldier_fire1,
 	ai_charge, 0,  soldier_cock,
 	ai_charge, 0,  soldier_attack1_refire2,
-	ai_charge, 0,  NULL,
-	ai_charge, 0,  NULL,
-	ai_charge, 0,  NULL
+	ai_charge, 0,  soldier_fire1,
+	ai_charge, 0,  soldier_fire1,
+	ai_charge, 0,  soldier_fire1
 };
 mmove_t soldier_move_attack1 = {FRAME_attak101, FRAME_attak112, soldier_frames_attack1, soldier_run};
 

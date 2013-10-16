@@ -289,13 +289,13 @@ argv(0) god
 void Cmd_God_f (edict_t *ent)
 {
 	char	*msg;
-
+/*
 	if (deathmatch->value && !sv_cheats->value)
 	{
 		gi.cprintf (ent, PRINT_HIGH, "You must run the server with '+set cheats 1' to enable this command.\n");
 		return;
 	}
-
+*/
 	ent->flags ^= FL_GODMODE;
 	if (!(ent->flags & FL_GODMODE) )
 		msg = "godmode OFF\n";

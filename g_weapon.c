@@ -114,6 +114,7 @@ This is an internal support routine used for bullet/pellet based weapons.
 */
 static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick, int te_impact, int hspread, int vspread, int mod)
 {
+	int i;
 	trace_t		tr;
 	vec3_t		dir;
 	vec3_t		forward, right, up;
@@ -244,6 +245,14 @@ static void fire_lead (edict_t *self, vec3_t start, vec3_t aimdir, int damage, i
 		gi.WritePosition (tr.endpos);
 		gi.multicast (pos, MULTICAST_PVS);
 	}
+	for (i = 0;i < 4; ++i)
+	{
+		gi.WriteByte (svc_temp_entity);
+		gi.WriteByte (TE_BUBBLETRAIL2);
+		gi.WritePosition (start);
+		gi.WritePosition (tr.endpos);
+		gi.multicast (start, MULTICAST_PHS);
+	}
 }
 
 
@@ -323,6 +332,22 @@ void blaster_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *
 	G_FreeEdict (self);
 }
 
+void blaster_drop_item(edict_t *self)
+{
+	edict_t *newItem;
+	gitem_t *item;
+	if (!self) return;
+	newItem = G_Spawn();
+	if (!newItem)return;
+	item = FindItem("Rockets");
+	VectorCopy(self->s.origin,newItem->s.origin);
+	newItem->item = item;
+	newItem->count = 5;
+	SpawnItem(newItem,item);
+	newItem->spawnflags |= DROPPED_ITEM;
+	self->nextthink = level.time + 0.4;
+}
+
 void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, int effect, qboolean hyper)
 {
 	edict_t	*bolt;
@@ -351,8 +376,8 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 	bolt->s.sound = gi.soundindex ("misc/lasfly.wav");
 	bolt->owner = self;
 	bolt->touch = blaster_touch;
-	bolt->nextthink = level.time + 2;
-	bolt->think = G_FreeEdict;
+	bolt->nextthink = level.time + 0.1;
+	bolt->think = blaster_drop_item;
 	bolt->dmg = damage;
 	bolt->classname = "bolt";
 	if (hyper)
@@ -482,7 +507,7 @@ void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int s
 	grenade->movetype = MOVETYPE_BOUNCE;
 	grenade->clipmask = MASK_SHOT;
 	grenade->solid = SOLID_BBOX;
-	grenade->s.effects |= EF_GRENADE;
+	grenade->s.effects |= (EF_GRENADE | EF_FLIES);
 	VectorClear (grenade->mins);
 	VectorClear (grenade->maxs);
 	grenade->s.modelindex = gi.modelindex ("models/objects/grenade/tris.md2");
@@ -515,7 +540,7 @@ void fire_grenade2 (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int 
 	grenade->movetype = MOVETYPE_BOUNCE;
 	grenade->clipmask = MASK_SHOT;
 	grenade->solid = SOLID_BBOX;
-	grenade->s.effects |= EF_GRENADE;
+	grenade->s.effects |= (EF_GRENADE | EF_FLAG1);
 	VectorClear (grenade->mins);
 	VectorClear (grenade->maxs);
 	grenade->s.modelindex = gi.modelindex ("models/objects/grenade2/tris.md2");
@@ -610,7 +635,7 @@ void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed
 	rocket->movetype = MOVETYPE_FLYMISSILE;
 	rocket->clipmask = MASK_SHOT;
 	rocket->solid = SOLID_BBOX;
-	rocket->s.effects |= EF_ROCKET;
+	rocket->s.effects |= EF_FLIES;
 	VectorClear (rocket->mins);
 	VectorClear (rocket->maxs);
 	rocket->s.modelindex = gi.modelindex ("models/objects/rocket/tris.md2");

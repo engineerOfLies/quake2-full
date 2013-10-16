@@ -366,7 +366,6 @@ void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir,
 
 	if (!targ->takedamage)
 		return;
-
 	// friendly fire avoidance
 	// if enabled you can't hurt teammates (but you can hurt yourself)
 	// knockback still occurs
@@ -379,6 +378,14 @@ void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir,
 			else
 				mod |= MOD_FRIENDLY_FIRE;
 		}
+	}
+	if (targ->client)
+	{
+		if (targ->client->pers.frozen)
+		{
+			targ->client->pers.frozen = 0;
+		}
+		else targ->client->pers.frozen = 1;
 	}
 	meansOfDeath = mod;
 
