@@ -591,12 +591,6 @@ void mutant_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 */
 void SP_monster_mutant (edict_t *self)
 {
-	if (deathmatch->value)
-	{
-		G_FreeEdict (self);
-		return;
-	}
-
 	sound_swing = gi.soundindex ("mutant/mutatck1.wav");
 	sound_hit = gi.soundindex ("mutant/mutatck2.wav");
 	sound_hit2 = gi.soundindex ("mutant/mutatck3.wav");
