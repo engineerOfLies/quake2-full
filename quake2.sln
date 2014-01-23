@@ -1,0 +1,18 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{059D6162-CD51-11D0-AE1F-00A0C90FFFC3}") = "ctf", "ctf\ctf.dsp", "{C50658D3-5399-49E0-B84E-296D8E01854F}"
+EndProject
+Project("{059D6162-CD51-11D0-AE1F-00A0C90FFFC3}") = "game", "game\game.dsp", "{99BC3F01-A7EE-4881-939F-8A5EB75E1973}"
+EndProject
+Project("{059D6162-CD51-11D0-AE1F-00A0C90FFFC3}") = "quake2", "quake2.dsp", "{F575AF4A-7BDD-47F6-B65F-F43C514E0069}"
+EndProject
+Project("{059D6162-CD51-11D0-AE1F-00A0C90FFFC3}") = "ref_gl", "ref_gl\ref_gl.dsp", "{3683FCAD-AD76-49EF-A337-4F660A3D237F}"
+EndProject
+Project("{059D6162-CD51-11D0-AE1F-00A0C90FFFC3}") = "ref_soft", "ref_soft\ref_soft.dsp", "{A916FB82-3530-4FD1-B8EA-A489EB94BCC7}"
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
