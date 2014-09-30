@@ -383,7 +383,7 @@ void actor_use (edict_t *self, edict_t *other, edict_t *activator)
 {
 	vec3_t		v;
 
-	self->goalentity = self->movetarget = G_PickTarget(self->target);
+	self->goalentity = self->movetarget = G_PickTargetIgnore(self->target,self->owner);
 	if ((!self->movetarget) || (strcmp(self->movetarget->classname, "target_actor") != 0))
 	{
 		gi.dprintf ("%s has bad target %s at %s\n", self->classname, self->target, vtos(self->s.origin));
@@ -518,7 +518,7 @@ void target_actor_touch (edict_t *self, edict_t *other, cplane_t *plane, csurfac
 	}
 	else if (self->spawnflags & 4)	//attack
 	{
-		other->enemy = G_PickTarget(self->pathtarget);
+		other->enemy = G_PickTargetIgnore(self->pathtarget,self->owner);
 		if (other->enemy)
 		{
 			other->goalentity = other->enemy;
@@ -546,7 +546,7 @@ void target_actor_touch (edict_t *self, edict_t *other, cplane_t *plane, csurfac
 		self->target = savetarget;
 	}
 
-	other->movetarget = G_PickTarget(self->target);
+	other->movetarget = G_PickTargetIgnore(self->target,self->owner);
 
 	if (!other->goalentity)
 		other->goalentity = other->movetarget;

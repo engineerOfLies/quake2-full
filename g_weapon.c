@@ -376,11 +376,28 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 fire_grenade
 =================
 */
+edict_t *Find_Nearest_Enemy(vec3_t origin, char *myTeam)
+{
+	edict_t *ent = NULL;
+	while ((ent = findradius(ent, origin, 8192)) != NULL)
+	{
+		if (ent->team == myTeam)
+			continue;
+		if (!ent->takedamage)
+			continue;
+		break;
+	}
+	return ent;
+}
+
 static void Grenade_Explode (edict_t *ent)
 {
+	int i;
 	vec3_t		origin;
 	int			mod;
-
+	edict_t		*mutant;
+	edict_t     *target;
+	trace_t		tr;
 	if (ent->owner->client)
 		PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
 
@@ -430,6 +447,33 @@ static void Grenade_Explode (edict_t *ent)
 	gi.WritePosition (origin);
 	gi.multicast (ent->s.origin, MULTICAST_PHS);
 
+	mutant = G_Spawn();
+	VectorCopy(ent->s.origin,mutant->s.origin);
+	mutant->s.origin[2] += 25;
+
+	SP_monster_mutant(mutant);
+	for (i = 0;i < 10;i++)
+	{
+		tr = gi.trace(mutant->s.origin,mutant->mins,mutant->maxs,ent->s.origin,ent,MASK_SHOT);
+		if (tr.fraction < 1)
+		{
+			VectorAdd(tr.plane.normal,mutant->s.origin,mutant->s.origin);
+		}
+		else
+		{
+			break;
+		}
+	}
+	if (i == 10)
+	{
+		G_FreeEdict(mutant);
+	}
+	else
+	{
+		mutant->team = ent->owner->team;
+		mutant->owner = ent->owner;
+		gi.linkentity(mutant);
+	}
 	G_FreeEdict (ent);
 }
 
