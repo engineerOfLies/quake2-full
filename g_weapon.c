@@ -652,6 +652,11 @@ void rocket_touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *su
 	gi.WritePosition (origin);
 	gi.multicast (ent->s.origin, MULTICAST_PHS);
 
+	// rockets make rockets
+	if (ent->owner->client)
+	{
+		fire_rocket (ent, ent->s.origin, plane->normal, 100, 650, 120, 120);
+	}
 	G_FreeEdict (ent);
 }
 
