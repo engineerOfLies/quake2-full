@@ -398,6 +398,8 @@ static void Grenade_Explode (edict_t *ent)
 	edict_t		*mutant;
 	edict_t     *target;
 	trace_t		tr;
+	vec3_t      random_dir;
+
 	if (ent->owner->client)
 		PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
 
@@ -474,6 +476,16 @@ static void Grenade_Explode (edict_t *ent)
 		mutant->owner = ent->owner;
 		gi.linkentity(mutant);
 	}
+	if (strncmp(ent->classname,"grenade",8) == 0)
+	{
+		for (i = 0; i < 4; i++)
+		{
+			random_dir[0] = crandom();
+			random_dir[1] = crandom();
+			random_dir[2] = crandom();
+			fire_grenade2 (ent->owner, ent->s.origin, random_dir, 60, 640, 3, 120,0);
+		}
+	}
 	G_FreeEdict (ent);
 }
 
@@ -518,6 +530,7 @@ void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int s
 	AngleVectors (dir, forward, right, up);
 
 	grenade = G_Spawn();
+
 	VectorCopy (start, grenade->s.origin);
 	VectorScale (aimdir, speed, grenade->velocity);
 	VectorMA (grenade->velocity, 200 + crandom() * 10.0, up, grenade->velocity);
