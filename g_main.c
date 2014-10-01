@@ -410,7 +410,7 @@ void G_RunFrame (void)
 
 		G_RunEntity (ent);
 	}
-
+	gi.bprintf(PRINT_HIGH,"level time: %f\n",level.time);
 	// see if it is time to end a deathmatch
 	CheckDMRules ();
 

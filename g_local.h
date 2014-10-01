@@ -319,6 +319,7 @@ typedef struct
 	int			body_que;			// dead bodies
 
 	int			power_cubes;		// ugly necessity for coop
+	int			warmup_period_over;
 } level_locals_t;
 
 

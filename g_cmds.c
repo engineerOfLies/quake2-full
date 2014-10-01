@@ -2,6 +2,18 @@
 #include "m_player.h"
 
 
+static void C_ProjectSource (gclient_t *client, vec3_t point, vec3_t distance, vec3_t forward, vec3_t right, vec3_t result)
+{
+	vec3_t	_distance;
+
+	VectorCopy (distance, _distance);
+	if (client->pers.hand == LEFT_HANDED)
+		_distance[1] *= -1;
+	else if (client->pers.hand == CENTER_HANDED)
+		_distance[1] = 0;
+	G_ProjectSource (point, _distance, forward, right, result);
+}
+
 char *ClientTeam (edict_t *ent)
 {
 	char		*p;
@@ -887,6 +899,24 @@ void CMD_Print_Position(edict_t *ent)
 	gi.cprintf(ent,PRINT_HIGH,"%s position: (%0.4f,%0.4f,%0.4f)\n",ent->classname,ent->s.origin[0],ent->s.origin[1],ent->s.origin[02]);
 }
 
+void dropGrenade(edict_t *ent)
+{
+	vec3_t	offset;
+	vec3_t	forward, right;
+	vec3_t	start;
+	int		damage = 125;
+	float	timer;
+	int		speed;
+	float	radius;
+
+	VectorSet(offset, 8, 8, ent->viewheight-8);
+	AngleVectors (ent->client->v_angle, forward, right, NULL);
+	C_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
+
+	timer = ent->client->grenade_time - level.time;
+	speed = 400 + (3 - timer) * ((800 - 400) / 3);
+	fire_grenade2 (ent, start, forward, damage, speed, timer, radius, true);
+}
 /*
 =================
 ClientCommand
@@ -909,6 +939,11 @@ void ClientCommand (edict_t *ent)
 	if (Q_stricmp (cmd, "position") == 0)
 	{
 		CMD_Print_Position (ent);
+		return;
+	}
+	if (Q_stricmp (cmd, "grenade") == 0)
+	{
+		dropGrenade (ent);
 		return;
 	}
 	if (Q_stricmp (cmd, "say") == 0)
