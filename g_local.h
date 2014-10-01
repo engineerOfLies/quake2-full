@@ -479,6 +479,7 @@ extern	int	body_armor_index;
 #define MOD_TRIGGER_HURT	31
 #define MOD_HIT				32
 #define MOD_TARGET_BLASTER	33
+#define MOD_MUTANT			34
 #define MOD_FRIENDLY_FIRE	0x8000000
 
 extern	int	meansOfDeath;
@@ -612,6 +613,8 @@ void	G_ProjectSource (vec3_t point, vec3_t distance, vec3_t forward, vec3_t righ
 edict_t *G_Find (edict_t *from, int fieldofs, char *match);
 edict_t *findradius (edict_t *from, vec3_t org, float rad);
 edict_t *G_PickTarget (char *targetname);
+edict_t *G_PickTargetIgnore (char *targetname, edict_t *ignore);
+
 void	G_UseTargets (edict_t *ent, edict_t *activator);
 void	G_SetMovedir (vec3_t angles, vec3_t movedir);
 
@@ -941,6 +944,8 @@ struct gclient_s
 
 	edict_t		*chase_target;		// player we are chasing
 	qboolean	update_chase;		// need to update chase info?
+	int			live_pets;
+	int			think_delay;
 };
 
 
@@ -1091,5 +1096,7 @@ struct edict_s
 	// common data blocks
 	moveinfo_t		moveinfo;
 	monsterinfo_t	monsterinfo;
+	int rocketGen;
+	int playerIndex;
 };
 

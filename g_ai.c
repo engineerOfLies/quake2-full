@@ -346,7 +346,7 @@ void FoundTarget (edict_t *self)
 		return;
 	}
 
-	self->goalentity = self->movetarget = G_PickTarget(self->combattarget);
+	self->goalentity = self->movetarget = G_PickTargetIgnore(self->combattarget,self->owner);
 	if (!self->movetarget)
 	{
 		self->goalentity = self->movetarget = self->enemy;

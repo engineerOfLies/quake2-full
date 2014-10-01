@@ -306,7 +306,7 @@ void mutant_jump_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface
 			VectorNormalize(normal);
 			VectorMA (self->s.origin, self->maxs[0], normal, point);
 			damage = 40 + 10 * random();
-			T_Damage (other, self, self, self->velocity, point, normal, damage, damage, 0, MOD_UNKNOWN);
+			T_Damage (other, self, self, self->velocity, point, normal, damage, damage, 0, MOD_MUTANT);
 		}
 	}
 
@@ -556,6 +556,10 @@ void mutant_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 {
 	int		n;
 
+	if ((self->owner) && (self->owner->client))
+	{
+		self->owner->client->live_pets--;
+	}
 	if (self->health <= self->gib_health)
 	{
 		gi.sound (self, CHAN_VOICE, gi.soundindex ("misc/udeath.wav"), 1, ATTN_NORM, 0);

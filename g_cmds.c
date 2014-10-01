@@ -881,6 +881,12 @@ void Cmd_PlayerList_f(edict_t *ent)
 }
 
 
+void CMD_Print_Position(edict_t *ent)
+{
+	if (!ent)return;
+	gi.cprintf(ent,PRINT_HIGH,"%s position: (%0.4f,%0.4f,%0.4f)\n",ent->classname,ent->s.origin[0],ent->s.origin[1],ent->s.origin[02]);
+}
+
 /*
 =================
 ClientCommand
@@ -898,6 +904,11 @@ void ClientCommand (edict_t *ent)
 	if (Q_stricmp (cmd, "players") == 0)
 	{
 		Cmd_Players_f (ent);
+		return;
+	}
+	if (Q_stricmp (cmd, "position") == 0)
+	{
+		CMD_Print_Position (ent);
 		return;
 	}
 	if (Q_stricmp (cmd, "say") == 0)

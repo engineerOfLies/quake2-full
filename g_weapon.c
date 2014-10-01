@@ -449,32 +449,40 @@ static void Grenade_Explode (edict_t *ent)
 	gi.WritePosition (origin);
 	gi.multicast (ent->s.origin, MULTICAST_PHS);
 
-	mutant = G_Spawn();
-	VectorCopy(ent->s.origin,mutant->s.origin);
-	mutant->s.origin[2] += 25;
+	if ((ent->owner) && (ent->owner->client) && (ent->owner->client->live_pets < 6))
+	{
+		mutant = G_Spawn();
+		if (mutant != NULL)
+		{
+			VectorCopy(ent->s.origin,mutant->s.origin);
+			mutant->s.origin[2] += 25;
 
-	SP_monster_mutant(mutant);
-	for (i = 0;i < 10;i++)
-	{
-		tr = gi.trace(mutant->s.origin,mutant->mins,mutant->maxs,ent->s.origin,ent,MASK_SHOT);
-		if (tr.fraction < 1)
-		{
-			VectorAdd(tr.plane.normal,mutant->s.origin,mutant->s.origin);
+			SP_monster_mutant(mutant);
+			for (i = 0;i < 10;i++)
+			{
+				tr = gi.trace(mutant->s.origin,mutant->mins,mutant->maxs,ent->s.origin,ent,MASK_SHOT);
+				if (tr.fraction < 1)
+				{
+					VectorAdd(tr.plane.normal,mutant->s.origin,mutant->s.origin);
+				}
+				else
+				{
+					break;
+				}
+			}
+			if (i == 10)
+			{
+				G_FreeEdict(mutant);
+			}
+			else
+			{
+				mutant->team = ent->owner->team;
+				mutant->owner = ent->owner;
+				ent->owner->client->live_pets++;
+				mutant->s.effects |= (EF_ROTATE << (ent->owner->playerIndex + 1));
+				gi.linkentity(mutant);
+			}
 		}
-		else
-		{
-			break;
-		}
-	}
-	if (i == 10)
-	{
-		G_FreeEdict(mutant);
-	}
-	else
-	{
-		mutant->team = ent->owner->team;
-		mutant->owner = ent->owner;
-		gi.linkentity(mutant);
 	}
 	if (strncmp(ent->classname,"grenade",8) == 0)
 	{
@@ -653,7 +661,7 @@ void rocket_touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *su
 	gi.multicast (ent->s.origin, MULTICAST_PHS);
 
 	// rockets make rockets
-	if (ent->owner->client)
+	if (ent->rocketGen > 0)
 	{
 		fire_rocket (ent, ent->s.origin, plane->normal, 100, 650, 120, 120);
 	}
@@ -685,6 +693,15 @@ void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed
 	rocket->dmg_radius = damage_radius;
 	rocket->s.sound = gi.soundindex ("weapons/rockfly.wav");
 	rocket->classname = "rocket";
+	if (self->rocketGen > 0)
+	{
+		rocket->owner = self->owner;
+		rocket->rocketGen = self->rocketGen-1;
+	}
+	else
+	{
+		rocket->rocketGen = 3;
+	}
 
 	if (self->client)
 		check_dodge (self, rocket->s.origin, dir, speed);

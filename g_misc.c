@@ -410,7 +410,7 @@ void point_combat_touch (edict_t *self, edict_t *other, cplane_t *plane, csurfac
 	if (self->target)
 	{
 		other->target = self->target;
-		other->goalentity = other->movetarget = G_PickTarget(other->target);
+		other->goalentity = other->movetarget = G_PickTargetIgnore(other->target,self->owner);
 		if (!other->goalentity)
 		{
 			gi.dprintf("%s at %s target %s does not exist\n", self->classname, vtos(self->s.origin), self->target);

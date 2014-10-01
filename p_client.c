@@ -195,7 +195,6 @@ void ClientObituary (edict_t *self, edict_t *inflictor, edict_t *attacker)
 	char		*message;
 	char		*message2;
 	qboolean	ff;
-
 	if (coop->value && attacker->client)
 		meansOfDeath |= MOD_FRIENDLY_FIRE;
 
@@ -206,6 +205,7 @@ void ClientObituary (edict_t *self, edict_t *inflictor, edict_t *attacker)
 		message = NULL;
 		message2 = "";
 
+	gi.bprintf(PRINT_HIGH,"means of death: %i\n",mod);
 		switch (mod)
 		{
 		case MOD_SUICIDE:
@@ -292,6 +292,37 @@ void ClientObituary (edict_t *self, edict_t *inflictor, edict_t *attacker)
 		}
 
 		self->enemy = attacker;
+		if (attacker->owner)
+		{
+			self->enemy = attacker->owner;
+		}
+		if (attacker && !attacker->client)
+		{
+			switch (mod)
+			{
+			case MOD_MUTANT:
+				message = "was mauled by";
+				message2 = "'s pet monster";
+				break;
+			case MOD_HIT:
+				message = "was clawed to death by";
+				message2 = "'s pet monster";
+				break;
+			}
+			if (message)
+			{
+				gi.bprintf (PRINT_MEDIUM,"%s %s %s%s\n", self->client->pers.netname, message, self->enemy->client->pers.netname, message2);
+				if (deathmatch->value)
+				{
+					if (ff)
+						self->enemy->client->resp.score--;
+					else
+						self->enemy->client->resp.score++;
+				}
+				return;
+			}
+		}
+		
 		if (attacker && attacker->client)
 		{
 			switch (mod)
@@ -363,6 +394,14 @@ void ClientObituary (edict_t *self, edict_t *inflictor, edict_t *attacker)
 			case MOD_TELEFRAG:
 				message = "tried to invade";
 				message2 = "'s personal space";
+				break;
+			case MOD_MUTANT:
+				message = "was mauled by";
+				message2 = "'s pet monster";
+				break;
+			case MOD_HIT:
+				message = "was clawed to death by";
+				message2 = "'s pet monster";
 				break;
 			}
 			if (message)
@@ -590,6 +629,10 @@ void InitClientPersistant (gclient_t *client)
 	gitem_t		*item;
 
 	memset (&client->pers, 0, sizeof(client->pers));
+
+	item = FindItem("Grenades");
+	client->pers.selected_item = ITEM_INDEX(item);
+	client->pers.inventory[client->pers.selected_item] = 6;
 
 	item = FindItem("Blaster");
 	client->pers.selected_item = ITEM_INDEX(item);
@@ -1143,6 +1186,7 @@ void PutClientInServer (edict_t *ent)
 	// clear entity values
 	ent->groundentity = NULL;
 	ent->client = &game.clients[index];
+	ent->playerIndex = index;
 	ent->takedamage = DAMAGE_AIM;
 	ent->movetype = MOVETYPE_WALK;
 	ent->viewheight = 22;
@@ -1731,6 +1775,16 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		other = g_edicts + i;
 		if (other->inuse && other->client->chase_target == ent)
 			UpdateChaseCam(other);
+	}
+
+	if (client->think_delay <= 0)
+	{
+		client->think_delay = 60;
+		// think slowly
+	}
+	else
+	{
+		client->think_delay--;
 	}
 }
 
