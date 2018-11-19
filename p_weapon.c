@@ -812,6 +812,22 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 
 	fire_blaster (ent, start, forward, damage, 1000, effect, hyper);
 
+	VectorScale(forward, 2, forward);
+	forward[0] += crandom();
+	forward[1] += crandom();
+	forward[2] += crandom();
+	fire_blaster(ent, start, forward, damage, 1000, effect, hyper);
+
+	AngleVectors(ent->client->v_angle, forward, right, NULL);
+	VectorSet(offset, 24, 8, ent->viewheight - 8);
+	VectorAdd(offset, g_offset, offset);
+	P_ProjectSource(ent->client, ent->s.origin, offset, forward, right, start);
+	VectorScale(forward, 2, forward);
+	forward[0] += crandom();
+	forward[1] += crandom();
+	forward[2] += crandom();
+	fire_blaster(ent, start, forward, damage, 1000, effect, hyper);
+
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
 	gi.WriteShort (ent-g_edicts);

@@ -57,14 +57,9 @@ FindItemByClassname
 */
 gitem_t	*FindItemByClassname (char *classname)
 {
-	int		i;
 	gitem_t	*it;
-
-	it = itemlist;
-	for (i=0 ; i<game.num_items ; i++, it++)
+	for (it = &itemlist[1]; !it->classname; it++)
 	{
-		if (!it->classname)
-			continue;
 		if (!Q_stricmp(it->classname, classname))
 			return it;
 	}

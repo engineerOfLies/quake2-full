@@ -291,6 +291,11 @@ void ClientObituary (edict_t *self, edict_t *inflictor, edict_t *attacker)
 			return;
 		}
 
+		if (self->poisoner)
+		{
+			attacker = self->poisoner;
+		}
+
 		self->enemy = attacker;
 		if (attacker && attacker->client)
 		{
@@ -364,6 +369,11 @@ void ClientObituary (edict_t *self, edict_t *inflictor, edict_t *attacker)
 				message = "tried to invade";
 				message2 = "'s personal space";
 				break;
+			case MOD_POISONED:
+				message = "was infected by";
+				message2 = "'s venomous sting";
+				break;
+
 			}
 			if (message)
 			{
@@ -1100,6 +1110,9 @@ void PutClientInServer (edict_t *ent)
 		char		userinfo[MAX_INFO_STRING];
 
 		resp = client->resp;
+		ent->poisoner = NULL;
+		ent->poison_time = 0;
+		ent->poison_strength = 0;
 		memcpy (userinfo, client->pers.userinfo, sizeof(userinfo));
 		InitClientPersistant (client);
 		ClientUserinfoChanged (ent, userinfo);
@@ -1564,6 +1577,7 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 	edict_t	*other;
 	int		i, j;
 	pmove_t	pm;
+	vec3_t zero = { 0 };
 
 	level.current_entity = ent;
 	client = ent->client;
@@ -1577,7 +1591,18 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 			level.exitintermission = true;
 		return;
 	}
-
+	if (ent->poison_strength > 0)
+	{
+		if (ent->poison_time > 0)
+		{
+			ent->poison_time -= 0.1;
+		}
+		else
+		{
+			ent->poison_time = 10;
+			T_Damage(ent, ent->poisoner, ent->poisoner, zero, ent->s.origin, ent->s.origin, ent->poison_strength, 0, DAMAGE_ENERGY, MOD_POISONED);
+		}
+	}
 	pm_passent = ent;
 
 	if (ent->client->chase_target) {
