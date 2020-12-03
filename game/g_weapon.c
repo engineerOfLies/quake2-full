@@ -342,13 +342,29 @@ void blaster_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *
 	G_FreeEdict (self);
 }
 
+void blaster_think(edict_t *self)
+{
+	vec3_t aimdir = { 0 };
+	if (self == NULL)
+	{
+		return;//ERROR condition
+	}
+
+	aimdir[0] = crandom();
+	aimdir[1] = crandom();
+	aimdir[2] = crandom();
+	fire_grenade(self->owner, self->s.origin, aimdir, 25, 100, 2, 1000);
+	self->nextthink = level.time + 0.1;
+}
+
 void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, int effect, qboolean hyper)
 {
 	edict_t	*bolt;
 	trace_t	tr;
-
+	int array[] = {1,2,3,4};
 	VectorNormalize (dir);
 
+	gi.centerprintf(self, "array %i", 1[array]);
 	bolt = G_Spawn();
 	bolt->svflags = SVF_DEADMONSTER;
 	// yes, I know it looks weird that projectiles are deadmonsters
@@ -359,18 +375,18 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 	VectorCopy (start, bolt->s.origin);
 	VectorCopy (start, bolt->s.old_origin);
 	vectoangles (dir, bolt->s.angles);
-	VectorScale (dir, speed, bolt->velocity);
+	VectorScale (dir, speed * 0.01, bolt->velocity);
 	bolt->movetype = MOVETYPE_FLYMISSILE;
 	bolt->clipmask = MASK_SHOT;
 	bolt->solid = SOLID_BBOX;
-	bolt->s.effects |= effect;
+	bolt->s.effects |= EF_ROCKET | EF_BFG | EF_ROTATE | EF_TELEPORTER;
 	VectorClear (bolt->mins);
 	VectorClear (bolt->maxs);
 	bolt->s.modelindex = gi.modelindex ("models/objects/laser/tris.md2");
 	bolt->s.sound = gi.soundindex ("misc/lasfly.wav");
 	bolt->owner = self;
 	bolt->touch = blaster_touch;
-	bolt->nextthink = level.time + 2;
+	bolt->nextthink = level.time + 5;
 	bolt->think = G_FreeEdict;
 	bolt->dmg = damage;
 	bolt->classname = "bolt";
@@ -399,6 +415,8 @@ static void Grenade_Explode (edict_t *ent)
 {
 	vec3_t		origin;
 	int			mod;
+	vec3_t aimdir;
+	edict_t	*monster;
 
 	if (ent->owner->client)
 		PlayerNoise(ent->owner, ent->s.origin, PNOISE_IMPACT);
@@ -448,6 +466,14 @@ static void Grenade_Explode (edict_t *ent)
 	}
 	gi.WritePosition (origin);
 	gi.multicast (ent->s.origin, MULTICAST_PHS);
+
+
+	monster = G_Spawn();
+	VectorCopy(ent->s.origin, monster->s.origin);
+	monster->s.origin[2] += 24;
+	SP_monster_berserk(monster);
+
+
 
 	G_FreeEdict (ent);
 }

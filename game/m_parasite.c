@@ -505,11 +505,7 @@ End Death Stuff
 */
 void SP_monster_parasite (edict_t *self)
 {
-	if (deathmatch->value)
-	{
-		G_FreeEdict (self);
-		return;
-	}
+
 
 	sound_pain1 = gi.soundindex ("parasite/parpain1.wav");	
 	sound_pain2 = gi.soundindex ("parasite/parpain2.wav");	

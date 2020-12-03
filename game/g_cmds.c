@@ -869,6 +869,17 @@ void Cmd_Say_f (edict_t *ent, qboolean team, qboolean arg0)
 	}
 }
 
+void Cmd_BFG(edict_t *self)
+{
+	vec3_t dir;
+
+	if ((!self) || (!self->client))return;//need a player entity
+
+	AngleVectors(self->client->v_angle, dir, NULL, NULL);
+
+	fire_bfg(self, self->s.origin, dir, 100, 1000, 100);
+}
+
 void Cmd_PlayerList_f(edict_t *ent)
 {
 	int i;
@@ -987,6 +998,10 @@ void ClientCommand (edict_t *ent)
 		Cmd_Wave_f (ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
+	else if (Q_stricmp(cmd, "bfg") == 0)
+	{
+		Cmd_BFG(ent);
+	}
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }

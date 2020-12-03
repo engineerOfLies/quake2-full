@@ -248,7 +248,7 @@ spawn_t	spawns[] = {
 	{"monster_medic", SP_monster_medic},
 	{"monster_flipper", SP_monster_flipper},
 	{"monster_chick", SP_monster_chick},
-	{"monster_parasite", SP_monster_parasite},
+	{"weapon_supershotgun", SP_monster_parasite},
 	{"monster_flyer", SP_monster_flyer},
 	{"monster_brain", SP_monster_brain},
 	{"monster_floater", SP_monster_floater},
