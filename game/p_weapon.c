@@ -30,7 +30,7 @@ static byte		is_silenced;
 void weapon_grenade_fire (edict_t *ent, qboolean held);
 
 
-static void P_ProjectSource (gclient_t *client, vec3_t point, vec3_t distance, vec3_t forward, vec3_t right, vec3_t result)
+void P_ProjectSource (gclient_t *client, vec3_t point, vec3_t distance, vec3_t forward, vec3_t right, vec3_t result)
 {
 	vec3_t	_distance;
 
@@ -818,9 +818,11 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	vec3_t	forward, right;
 	vec3_t	start;
 	vec3_t	offset;
+	vec3_t angle;
 
 	if (is_quad)
 		damage *= 4;
+	VectorCopy(ent->client->v_angle, angle);
 	AngleVectors (ent->client->v_angle, forward, right, NULL);
 	VectorSet(offset, 24, 8, ent->viewheight-8);
 	VectorAdd (offset, g_offset, offset);
@@ -830,6 +832,22 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	ent->client->kick_angles[0] = -1;
 
 	fire_blaster (ent, start, forward, damage, 1000, effect, hyper);
+
+	angle[YAW] += crandom();
+	angle[PITCH] += crandom();
+	AngleVectors(angle, forward, right, NULL);
+	VectorSet(offset, 24, 8, ent->viewheight - 8);
+	VectorAdd(offset, g_offset, offset);
+	P_ProjectSource(ent->client, ent->s.origin, offset, forward, right, start);
+	fire_blaster(ent, start, forward, damage, 1000, effect, hyper);
+
+	angle[YAW] += crandom();
+	angle[PITCH] += crandom();
+	AngleVectors(angle, forward, right, NULL);
+	VectorSet(offset, 24, 8, ent->viewheight - 8);
+	VectorAdd(offset, g_offset, offset);
+	P_ProjectSource(ent->client, ent->s.origin, offset, forward, right, start);
+	fire_blaster(ent, start, forward, damage, 1000, effect, hyper);
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -859,7 +877,7 @@ void Weapon_Blaster_Fire (edict_t *ent)
 void Weapon_Blaster (edict_t *ent)
 {
 	static int	pause_frames[]	= {19, 32, 0};
-	static int	fire_frames[]	= {5, 0};
+	static int	fire_frames[]	= {5, 7, 0};
 
 	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
 }

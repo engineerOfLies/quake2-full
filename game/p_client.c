@@ -627,6 +627,10 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.max_slugs		= 50;
 
 	client->pers.connected = true;
+
+	client->pers.mana = 0;
+	client->pers.mana_max = 100;
+	client->pers.mana_regen = 0.05;
 }
 
 
@@ -1587,6 +1591,14 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		return;
 	}
 
+	client->pers.mana += client->pers.mana_regen;
+	if (client->pers.mana > client->pers.mana_max)
+	{
+		client->pers.mana = client->pers.mana_max;
+	}
+//	gi.centerprintf(ent, "Mana Level: %i / %i", (int)client->pers.mana, (int)client->pers.mana_max);
+
+
 	pm_passent = ent;
 
 	if (ent->client->chase_target) {
@@ -1741,6 +1753,8 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		if (other->inuse && other->client->chase_target == ent)
 			UpdateChaseCam(other);
 	}
+
+
 }
 
 

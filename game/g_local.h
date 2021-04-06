@@ -862,6 +862,9 @@ typedef struct
 	int			helpchanged;
 
 	qboolean	spectator;			// client is a spectator
+
+	float		mana, mana_max, mana_regen;
+
 } client_persistant_t;
 
 // client data that stays across deathmatch respawns
@@ -959,6 +962,9 @@ struct gclient_s
 
 	edict_t		*chase_target;		// player we are chasing
 	qboolean	update_chase;		// need to update chase info?
+
+	int			casting;			//true if casting a spell
+	float       casttime;			//start time for a cast command
 };
 
 
@@ -1111,3 +1117,4 @@ struct edict_s
 	monsterinfo_t	monsterinfo;
 };
 
+void P_ProjectSource(gclient_t *client, vec3_t point, vec3_t distance, vec3_t forward, vec3_t right, vec3_t result);

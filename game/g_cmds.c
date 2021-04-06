@@ -899,6 +899,42 @@ void Cmd_PlayerList_f(edict_t *ent)
 	gi.cprintf(ent, PRINT_HIGH, "%s", text);
 }
 
+int cmd_cast_spell(edict_t *ent)
+{
+	vec3_t	forward, right;
+	vec3_t	start;
+	vec3_t	offset;
+	vec3_t angle;
+	char		*s;
+
+	s = gi.args();
+	if (Q_stricmp(s, "BFG10K") == 0)
+	{
+		ent->client->casting = 0;
+		if (ent->client->pers.mana < 50)
+		{
+			gi.centerprintf(ent,"Fizzzle.... not enough mana");
+			return 1;
+		}
+		VectorCopy(ent->client->v_angle, angle);
+		AngleVectors(ent->client->v_angle, forward, right, NULL);
+		P_ProjectSource(ent->client, ent->s.origin, offset, forward, right, start);
+
+		fire_bfg(ent, ent->s.origin, forward, 100, 100, 25);
+		ent->client->pers.mana -= 50;
+		return 1;
+	}
+	return 0;
+}
+
+void cmd_cast_begin(edict_t *ent)
+{
+	if ((!ent)||(!ent->client))return;
+	gi.centerprintf(ent, "Mana Level: %i / %i", (int)ent->client->pers.mana, (int)ent->client->pers.mana_max);
+	gi.cprintf(ent, PRINT_HIGH, "Swish and...\n");
+	ent->client->casttime = level.time;
+	ent->client->casting = 1;
+}
 
 /*
 =================
@@ -942,6 +978,18 @@ void ClientCommand (edict_t *ent)
 
 	if (level.intermissiontime)
 		return;
+
+	if (ent->client->casting)
+	{
+		if ((level.time - ent->client->casttime) > 2)
+		{
+			ent->client->casting = 0;
+		}
+		else if (Q_stricmp(cmd, "use") == 0)
+		{
+			if (cmd_cast_spell(ent))return;
+		}
+	}
 
 	if (Q_stricmp (cmd, "use") == 0)
 		Cmd_Use_f (ent);
@@ -987,6 +1035,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_Wave_f (ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
+	else if (Q_stricmp(cmd, "cast") == 0)
+		cmd_cast_begin(ent);
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }
