@@ -1,4 +1,33 @@
 
+Deliverables:
+  - Light Saber (with blaster bolt deflection)
+  - 5 active Force Powers
+  - Force/Mana management system
+  - Xp/Skill Tree growth
+  - Sith Boss Fight
+  
+Changelog:
+  New Keybinds:
+    F       : Cast force power
+    R       : Begin Force power swap
+    R -> 1  : Lightning(non functioning)
+    R -> 2  : Push
+    R -> 3  : Pull
+    R -> 4  : Heal
+    R -> 5  : Dash
+    Right click : Block with Light Saber (non functioning)
+    1 while blaster equipped: Equip Light Saber
+
+The player has mana to use force powers, regenerating over time up to the max of 100.
+Killing enemies grants experience. Every 100 experience the player gains +10 max health and mana, and some mana regen.
+
+Mana is displayed in the bottom right of the screen.
+Experience can be found in the F1 help screen.
+
+
+
+//==========================================================================
+
 This is the complete source code for Quake 2, version 3.19, buildable with
 visual C++ 6.0.  The linux version should be buildable, but we haven't
 tested it for the release.
