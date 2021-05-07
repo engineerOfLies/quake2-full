@@ -98,6 +98,14 @@ typedef enum
 
 typedef enum
 {
+	FORCE_READY,
+	FORCE_ACTIVATING,
+	FORCE_DROPPING,
+	FORCE_FIRING
+}forcestate_t;
+
+typedef enum
+{
 	AMMO_BULLETS,
 	AMMO_SHELLS,
 	AMMO_ROCKETS,
@@ -498,6 +506,9 @@ extern	int	body_armor_index;
 #define MOD_TRIGGER_HURT	31
 #define MOD_HIT				32
 #define MOD_TARGET_BLASTER	33
+
+#define MOD_LIGHTSABER		66
+
 #define MOD_FRIENDLY_FIRE	0x8000000
 
 extern	int	meansOfDeath;
@@ -862,6 +873,13 @@ typedef struct
 	int			helpchanged;
 
 	qboolean	spectator;			// client is a spectator
+
+	float		mana, mana_max, mana_regen;
+	int			experience;
+	float		swapping;
+	gitem_t		*force_power;
+
+	float		block_time;
 } client_persistant_t;
 
 // client data that stays across deathmatch respawns
@@ -959,6 +977,8 @@ struct gclient_s
 
 	edict_t		*chase_target;		// player we are chasing
 	qboolean	update_chase;		// need to update chase info?
+
+	gitem_t		*newforcepower;
 };
 
 

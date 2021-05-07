@@ -607,8 +607,23 @@ but is called after each death and level change in deathmatch
 void InitClientPersistant (gclient_t *client)
 {
 	gitem_t		*item;
+	gitem_t		*force_power;
 
 	memset (&client->pers, 0, sizeof(client->pers));
+
+	item = FindItem("Sword");
+	client->pers.inventory[ITEM_INDEX(item)] = 1;
+	item = FindItem("Lightning");
+	client->pers.inventory[ITEM_INDEX(item)] = 1;
+	client->pers.force_power = item;
+	item = FindItem("Push");
+	client->pers.inventory[ITEM_INDEX(item)] = 1;
+	item = FindItem("Heal");
+	client->pers.inventory[ITEM_INDEX(item)] = 1;
+	item = FindItem("Dash");
+	client->pers.inventory[ITEM_INDEX(item)] = 1;
+	item = FindItem("Jump");
+	client->pers.inventory[ITEM_INDEX(item)] = 1;
 
 	item = FindItem("Blaster");
 	client->pers.selected_item = ITEM_INDEX(item);
@@ -627,6 +642,16 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.max_slugs		= 50;
 
 	client->pers.connected = true;
+	
+	client->pers.mana				= 0;
+	client->pers.mana_max			= 100;
+	client->pers.mana_regen			= 0.05;
+
+	client->pers.swapping			= 0;
+	client->pers.experience			= 0;
+	client->pers.force_power		= force_power;
+
+	client->pers.block_time			= 0;
 }
 
 
@@ -1585,6 +1610,37 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 			&& (ucmd->buttons & BUTTON_ANY) )
 			level.exitintermission = true;
 		return;
+	}
+
+	//*********** Mana regen
+	client->pers.mana += client->pers.mana_regen;
+	if (client->pers.mana > client->pers.mana_max)
+	{
+		client->pers.mana = client->pers.mana_max;
+	}
+	//gi.centerprintf(ent, "Mana Level: %i / %i", (int)client->pers.mana, (int)client->pers.mana_max);
+	//gi.cprintf(ent, PRINT_MEDIUM , "Mana Level: %i / %i", (int)client->pers.mana, (int)client->pers.mana_max);
+	
+	if (client->pers.swapping > 0)
+	{
+		gi.cprintf(ent, PRINT_HIGH, "SWAPPING %i\n", (int)client->pers.swapping);
+		client->pers.swapping -= 0.05;
+	}
+
+	if (client->pers.block_time > 0)
+	{
+		client->pers.block_time -= 0.05;
+		gi.centerprintf(ent, "BLOCKING: %i", (int)client->pers.block_time);
+		ent->client->invincible_framenum = 1;
+	}
+
+	if (client->pers.experience >= 100)
+	{
+		gi.centerprintf(ent, "Level up! +10 to max health/mana\n+0.025 to mana regen");
+		client->pers.experience -= 100;
+		client->pers.max_health += 10;
+		client->pers.mana_max += 10;
+		client->pers.mana_regen += 0.025;
 	}
 
 	pm_passent = ent;

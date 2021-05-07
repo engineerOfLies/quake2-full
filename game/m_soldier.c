@@ -1145,6 +1145,9 @@ void soldier_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int dama
 {
 	int		n;
 
+	if (inflictor->client)
+		inflictor->client->pers.experience += 22;
+
 // check for gib
 	if (self->health <= self->gib_health)
 	{

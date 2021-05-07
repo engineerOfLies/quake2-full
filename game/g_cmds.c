@@ -142,6 +142,127 @@ void ValidateSelectedItem (edict_t *ent)
 
 //=================================================================================
 
+void Force_Lightning(edict_t *ent)
+{
+	if (ent->client->pers.mana >= 10)
+	{
+	
+	ent->client->pers.mana -= 10;
+
+	Lightning_Attack(ent);
+	}
+
+	
+}
+
+void Force_Push(edict_t *ent)
+{
+	if (ent->client->pers.mana > 20)
+	{
+		vec3_t	start;
+		vec3_t	forward;
+		vec3_t	end;
+		trace_t	tr;
+
+		VectorCopy(ent->s.origin, start);
+		start[2] += ent->viewheight;
+		AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+		VectorMA(start, 8192, forward, end);
+		tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
+		if (tr.ent && ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client)))
+		{
+			VectorScale(forward, 4000, forward);
+			VectorAdd(forward, tr.ent->velocity, tr.ent->velocity);
+		}
+	}
+}
+
+void Force_Pull(edict_t *ent){
+
+	if (ent->client->pers.mana > 20)
+	{
+		vec3_t	start;
+		vec3_t	forward;
+		vec3_t	end;
+		trace_t	tr;
+
+		VectorCopy(ent->s.origin, start);
+		start[2] += ent->viewheight;
+		AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+		VectorMA(start, 8192, forward, end);
+		tr = gi.trace(start, NULL, NULL, end, ent, MASK_SHOT);
+		if (tr.ent && ((tr.ent->svflags & SVF_MONSTER) || (tr.ent->client)))
+		{
+			VectorScale(forward, -2000, forward);
+			VectorAdd(forward, tr.ent->velocity, tr.ent->velocity);
+		}
+	}
+}
+
+void Force_Heal(edict_t *ent)
+{
+	if (ent->client->pers.mana > 40)
+	{
+		ent->client->pers.mana -= 40;
+		ent->health += 10;
+		gi.sound(ent, CHAN_ITEM, gi.soundindex("items/m_health.wav"), 1, ATTN_NORM, 0);
+	}
+}
+
+void Force_Dash(edict_t *ent)
+{
+	if (ent->client->pers.mana > 20)
+	{
+		vec3_t	start;
+		vec3_t	forward;
+		vec3_t	end;
+
+		VectorCopy(ent->s.origin, start);
+		start[2] += ent->viewheight;
+		AngleVectors(ent->client->v_angle, forward, NULL, NULL);
+		VectorMA(start, 8192, forward, end);
+		VectorScale(forward, 1500, forward);
+		VectorAdd(forward, ent->velocity, ent->velocity);
+	}
+}
+
+void Force_Jump(edict_t *ent)
+{
+	if (ent->client->pers.mana >= 10)
+		ent->client->pers.mana -= 10;
+}
+
+void Cmd_Cast_Spell(edict_t *ent)
+{
+	//gi.cprintf(ent, PRINT_HIGH, "Mana Before: %s\n", (int)ent->client->pers.mana);
+	if (ent->client->pers.force_power == FindItem("Lightning"))
+		Force_Lightning(ent);
+	else if (ent->client->pers.force_power == FindItem("Push"))
+		Force_Push(ent);
+	else if (ent->client->pers.force_power == FindItem("Heal"))
+		Force_Heal(ent);
+	else if (ent->client->pers.force_power == FindItem("Dash"))
+		Force_Dash(ent);
+	else if (ent->client->pers.force_power == FindItem("Pull"))
+		Force_Pull(ent);
+	//gi.cprintf(ent, PRINT_HIGH, "Mana After: %s\n", (int)ent->client->pers.mana);
+}
+
+void Cmd_Lightsaber_Block(edict_t *ent)
+{
+	if (ent->client->pers.weapon == FindItem("Sword"))
+	{
+		ent->client->pers.block_time = 3;
+		gi.sound(ent, CHAN_ITEM, gi.soundindex("items/protect.wav"), 1, ATTN_NORM, 0);
+	}
+}
+
+void Cmd_Swap_Powers(edict_t *ent)
+{
+	ent->client->pers.swapping = 8;
+
+}
+
 /*
 ==================
 Cmd_Give_f
@@ -401,6 +522,23 @@ void Cmd_Use_f (edict_t *ent)
 
 	s = gi.args();
 	it = FindItem (s);
+	if (ent->client->pers.swapping > 0)
+	{
+		if (!Q_stricmp(s, "Blaster"))
+			ent->client->pers.force_power = FindItem("Lightning");
+		else if (!Q_stricmp(s, "Shotgun"))
+			ent->client->pers.force_power = FindItem("Push");
+		else if (!Q_stricmp(s, "Super Shotgun"))
+			ent->client->pers.force_power = FindItem("Pull");
+		else if (!Q_stricmp(s, "Machinegun"))
+			ent->client->pers.force_power = FindItem("Heal");
+		else if (!Q_stricmp(s, "Chaingun"))
+			ent->client->pers.force_power = FindItem("Dash");
+		s = ent->client->pers.force_power->pickup_name;
+		ent->client->pers.swapping = 0;
+		gi.cprintf(ent, PRINT_HIGH, "Selected Power: %s\n", s);
+		return;
+	}
 	if (!it)
 	{
 		gi.cprintf (ent, PRINT_HIGH, "unknown item: %s\n", s);
@@ -417,6 +555,23 @@ void Cmd_Use_f (edict_t *ent)
 		gi.cprintf (ent, PRINT_HIGH, "Out of item: %s\n", s);
 		return;
 	}
+	
+	//added 1-13-98 by Dan Eisner
+	//to allow multiple weapons from one keypress
+	
+	else if (!Q_stricmp(s, ent->client->pers.weapon->pickup_name))
+	{
+		if (!Q_stricmp(s, "Blaster"))    {
+			it = FindItem("Sword");
+
+		}
+		else if (!Q_stricmp(s, "Shotgun"))    {
+			it = FindItem("SuperShotgun");
+		}
+
+	}
+
+	//end added portion
 
 	it->use (ent, it);
 }
@@ -987,6 +1142,12 @@ void ClientCommand (edict_t *ent)
 		Cmd_Wave_f (ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
+	else if (Q_stricmp(cmd, "cast") == 0)
+		Cmd_Cast_Spell(ent);
+	else if (Q_stricmp(cmd, "swap") == 0)
+		Cmd_Swap_Powers(ent);
+	else if (Q_stricmp(cmd, "block") == 0)
+		Cmd_Lightsaber_Block(ent);
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }

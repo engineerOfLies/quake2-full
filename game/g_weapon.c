@@ -279,7 +279,6 @@ void fire_bullet (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int ki
 	fire_lead (self, start, aimdir, damage, kick, TE_GUNSHOT, hspread, vspread, mod);
 }
 
-
 /*
 =================
 fire_shotgun
@@ -325,6 +324,18 @@ void blaster_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *
 			mod = MOD_HYPERBLASTER;
 		else
 			mod = MOD_BLASTER;
+
+		if (other->client && other->client->pers.block_time > 0)
+		{
+			vec3_t	start;
+			vec3_t	forward, right, up;
+			vec3_t	aim;
+			vec3_t	dir;
+			VectorInverse(dir);
+			vec3_t	end;
+			fire_blaster(other, start, dir, self->dmg, self->speed, self->s.effects, self->spawnflags);
+
+		}
 		T_Damage (other, self, self->owner, self->velocity, self->s.origin, plane->normal, self->dmg, 1, DAMAGE_ENERGY, mod);
 	}
 	else

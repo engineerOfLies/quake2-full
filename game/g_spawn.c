@@ -265,6 +265,8 @@ spawn_t	spawns[] = {
 	{"turret_base", SP_turret_base},
 	{"turret_driver", SP_turret_driver},
 
+	{ "monster_soldier", SP_monster_mutant },
+
 	{NULL, NULL}
 };
 
@@ -701,6 +703,23 @@ char *single_statusbar =
 "	xv	148 "
 "	pic	11 "
 "endif "
+
+// Mana
+"yb -24 "
+"xr -75 "
+"num 3 19 "
+"xr -24 "
+"pic 18 "
+
+
+// Block
+"if 21 "
+"   yb -48 "
+"   xr -58 "
+"   num 1 21 "
+"   xr - 24 "
+"   pic 20 "
+"endif"
 ;
 
 char *dm_statusbar =
