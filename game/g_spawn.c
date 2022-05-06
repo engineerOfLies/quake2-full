@@ -554,7 +554,7 @@ void SpawnEntities (char *mapname, char *entities, char *spawnpoint)
 	while (1)
 	{
 		// parse the opening brace	
-		com_token = COM_Parse (&entities);
+		com_token = COM_Parse(&entities);
 		if (!entities)
 			break;
 		if (com_token[0] != '{')
@@ -599,6 +599,8 @@ void SpawnEntities (char *mapname, char *entities, char *spawnpoint)
 			ent->spawnflags &= ~(SPAWNFLAG_NOT_EASY|SPAWNFLAG_NOT_MEDIUM|SPAWNFLAG_NOT_HARD|SPAWNFLAG_NOT_COOP|SPAWNFLAG_NOT_DEATHMATCH);
 		}
 
+		if (ent)
+			gi.dprintf("ent: %s\n", ent->classname);
 		ED_CallSpawn (ent);
 	}	
 

@@ -708,6 +708,182 @@ void button_return (edict_t *self)
 		self->takedamage = DAMAGE_YES;
 }
 
+void open_chest(edict_t* self)
+{
+	char* name;
+	gitem_t* it;
+	int			index;
+	int			i;
+	qboolean	give_all;
+	edict_t* it_ent;
+
+	edict_t* ent = self->activator;
+
+	//int item_index = 4;
+	int item_index = ((int)rand())%10;
+	gi.bprintf(PRINT_HIGH, "item_index = %d\n", item_index);
+	switch (item_index) {
+		case 0:case 1:
+			name = "Shotgun";
+			break;
+		case 2:case 3:
+			name = "Super Shotgun";
+			break;
+		case 4:case 5:
+			name = "Machinegun";
+			break;
+		case 6:case 7:
+			name = "Grenades";
+			break;
+		case 8:
+			name = "Enemy";
+			break;
+		default:
+			name = "all";
+			break;
+	}
+	gi.bprintf(PRINT_HIGH, "name = %s\n", name);
+	if (Q_stricmp(name, "Enemy") == 0) {
+		edict_t* newEnt = G_Spawn();
+		gi.bprintf(PRINT_HIGH, "self %f %f %f", self->moveinfo.end_origin[0], self->move_origin[0], self->moveinfo.distance);
+		gi.bprintf(PRINT_HIGH, "ent->s.origin: %f %f %f", ent->s.origin[0], ent->s.origin[1], ent->s.origin[2]);
+		newEnt->classname = "monster_infantry";
+		vec_t* normDir;
+		VectorNormalize2(ent->s.angles, normDir);
+		gi.bprintf(PRINT_HIGH, "normDir %f %f %f", normDir[0], normDir[1], normDir[2]);
+		newEnt->s.origin[0] = ent->s.origin[0] - 50 * normDir[2];
+		newEnt->s.origin[1] = ent->s.origin[1] - 50 * normDir[1];
+		newEnt->s.origin[2] = ent->s.origin[2];
+		ED_CallSpawn(newEnt);
+		gi.bprintf(PRINT_HIGH,"Entity Spawned: %s at pos: %f %f %f\n", newEnt->classname, newEnt->s.origin[0], newEnt->s.origin[1], newEnt->s.origin[2]);
+	}
+
+	if (Q_stricmp(name, "all") == 0)
+		give_all = true;
+	else
+		give_all = false;
+
+	if (give_all || Q_stricmp(gi.argv(1), "health") == 0)
+	{
+		if (gi.argc() == 3)
+			ent->health = atoi(gi.argv(2));
+		else
+			ent->health = ent->max_health;
+		if (!give_all)
+			return;
+	}
+
+	if (give_all || Q_stricmp(name, "weapons") == 0)
+	{
+		for (i = 0; i < game.num_items; i++)
+		{
+			it = itemlist + i;
+			if (!it->pickup)
+				continue;
+			if (!(it->flags & IT_WEAPON))
+				continue;
+			ent->client->pers.inventory[i] += 1;
+		}
+		if (!give_all)
+			return;
+	}
+
+	if (give_all || Q_stricmp(name, "ammo") == 0)
+	{
+		for (i = 0; i < game.num_items; i++)
+		{
+			it = itemlist + i;
+			if (!it->pickup)
+				continue;
+			if (!(it->flags & IT_AMMO))
+				continue;
+			Add_Ammo(ent, it, 1000);
+		}
+		if (!give_all)
+			return;
+	}
+
+	if (give_all || Q_stricmp(name, "armor") == 0)
+	{
+		gitem_armor_t* info;
+
+		it = FindItem("Jacket Armor");
+		ent->client->pers.inventory[ITEM_INDEX(it)] = 0;
+
+		it = FindItem("Combat Armor");
+		ent->client->pers.inventory[ITEM_INDEX(it)] = 0;
+
+		it = FindItem("Body Armor");
+		info = (gitem_armor_t*)it->info;
+		ent->client->pers.inventory[ITEM_INDEX(it)] = info->max_count;
+
+		if (!give_all)
+			return;
+	}
+
+	if (give_all || Q_stricmp(name, "Power Shield") == 0)
+	{
+		it = FindItem("Power Shield");
+		it_ent = G_Spawn();
+		it_ent->classname = it->classname;
+		SpawnItem(it_ent, it);
+		Touch_Item(it_ent, ent, NULL, NULL);
+		if (it_ent->inuse)
+			G_FreeEdict(it_ent);
+
+		if (!give_all)
+			return;
+	}
+
+	if (give_all)
+	{
+		for (i = 0; i < game.num_items; i++)
+		{
+			it = itemlist + i;
+			if (!it->pickup)
+				continue;
+			if (it->flags & (IT_ARMOR | IT_WEAPON | IT_AMMO))
+				continue;
+			ent->client->pers.inventory[i] = 1;
+		}
+		return;
+	}
+
+	it = FindItem(name);
+	if (!it)
+	{
+		name = gi.argv(1);
+		it = FindItem(name);
+		if (!it)
+		{
+			gi.cprintf(ent, PRINT_HIGH, "unknown item\n");
+			return;
+		}
+	}
+
+	if (!it->pickup)
+	{
+		gi.cprintf(ent, PRINT_HIGH, "non-pickup item\n");
+		return;
+	}
+
+	index = ITEM_INDEX(it);
+
+	if (it->flags & IT_AMMO)
+	{
+		ent->client->pers.inventory[index] += it->quantity;
+	}
+	else
+	{
+		it_ent = G_Spawn();
+		it_ent->classname = it->classname;
+		SpawnItem(it_ent, it);
+		Touch_Item(it_ent, ent, NULL, NULL);
+		if (it_ent->inuse)
+			G_FreeEdict(it_ent);
+	}
+}
+
 void button_wait (edict_t *self)
 {
 	self->moveinfo.state = STATE_TOP;
@@ -727,7 +903,7 @@ void button_fire (edict_t *self)
 {
 	if (self->moveinfo.state == STATE_UP || self->moveinfo.state == STATE_TOP)
 		return;
-
+	open_chest(self);
 	self->moveinfo.state = STATE_UP;
 	if (self->moveinfo.sound_start && !(self->flags & FL_TEAMSLAVE))
 		gi.sound (self, CHAN_NO_PHS_ADD+CHAN_VOICE, self->moveinfo.sound_start, 1, ATTN_STATIC, 0);
@@ -736,8 +912,9 @@ void button_fire (edict_t *self)
 
 void button_use (edict_t *self, edict_t *other, edict_t *activator)
 {
+	gi.bprintf(PRINT_HIGH, "button_use\n");
 	self->activator = activator;
-	button_fire (self);
+	button_fire (self, other);
 }
 
 void button_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf)
@@ -748,23 +925,24 @@ void button_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *s
 	if (other->health <= 0)
 		return;
 
+	gi.bprintf(PRINT_HIGH, "button_touch\n");
 	self->activator = other;
 	button_fire (self);
 }
 
 void button_killed (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
+	gi.bprintf(PRINT_HIGH, "button_killed\n");
 	self->activator = attacker;
 	self->health = self->max_health;
 	self->takedamage = DAMAGE_NO;
-	button_fire (self);
+	button_fire (self, attacker);
 }
 
 void SP_func_button (edict_t *ent)
 {
 	vec3_t	abs_movedir;
 	float	dist;
-
 	G_SetMovedir (ent->s.angles, ent->movedir);
 	ent->movetype = MOVETYPE_STOP;
 	ent->solid = SOLID_BSP;
@@ -814,7 +992,6 @@ void SP_func_button (edict_t *ent)
 	VectorCopy (ent->s.angles, ent->moveinfo.start_angles);
 	VectorCopy (ent->pos2, ent->moveinfo.end_origin);
 	VectorCopy (ent->s.angles, ent->moveinfo.end_angles);
-
 	gi.linkentity (ent);
 }
 

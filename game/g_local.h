@@ -106,6 +106,14 @@ typedef enum
 	AMMO_SLUGS
 } ammo_t;
 
+typedef enum
+{
+	RESOURCE_BREAD,
+	RESOURCE_WATER,
+	RESOURCE_CLOTH,
+	RESOURCE_ALCOHOL
+} resources_t;
+
 
 //deadflag
 #define DEAD_NO					0
@@ -647,6 +655,11 @@ char	*vtos (vec3_t v);
 
 float vectoyaw (vec3_t vec);
 void vectoangles (vec3_t vec, vec3_t angles);
+
+//
+// g_spawn.c
+//
+void ED_CallSpawn(edict_t* ent);
 
 //
 // g_combat.c
