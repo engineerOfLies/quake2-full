@@ -32,6 +32,11 @@ void Weapon_Chaingun (edict_t *ent);
 void Weapon_HyperBlaster (edict_t *ent);
 void Weapon_RocketLauncher (edict_t *ent);
 void Weapon_Grenade (edict_t *ent);
+void Weapon_ImpactGrenade(edict_t* ent);
+void Weapon_StickyGrenade(edict_t* ent);
+void Weapon_LightGrenade(edict_t* ent);
+void Weapon_RocketGrenade(edict_t* ent);
+void Weapon_CarpetGrenade(edict_t* ent);
 void Weapon_GrenadeLauncher (edict_t *ent);
 void Weapon_Railgun (edict_t *ent);
 void Weapon_BFG (edict_t *ent);
@@ -310,6 +315,33 @@ qboolean Pickup_Pack (edict_t *ent, edict_t *other)
 			other->client->pers.inventory[index] = other->client->pers.max_grenades;
 	}
 
+	item = FindItem("ImpactGrenades");
+	if (item)
+	{
+		index = ITEM_INDEX(item);
+		other->client->pers.inventory[index] += item->quantity;
+		if (other->client->pers.inventory[index] > other->client->pers.max_grenades)
+			other->client->pers.inventory[index] = other->client->pers.max_grenades;
+	}
+
+	item = FindItem("StickyGrenades");
+	if (item)
+	{
+		index = ITEM_INDEX(item);
+		other->client->pers.inventory[index] += item->quantity;
+		if (other->client->pers.inventory[index] > other->client->pers.max_grenades)
+			other->client->pers.inventory[index] = other->client->pers.max_grenades;
+	}
+
+	item = FindItem("RocketGrenades");
+	if (item)
+	{
+		index = ITEM_INDEX(item);
+		other->client->pers.inventory[index] += item->quantity;
+		if (other->client->pers.inventory[index] > other->client->pers.max_grenades)
+			other->client->pers.inventory[index] = other->client->pers.max_grenades;
+	}
+
 	item = FindItem("Rockets");
 	if (item)
 	{
@@ -327,6 +359,15 @@ qboolean Pickup_Pack (edict_t *ent, edict_t *other)
 		if (other->client->pers.inventory[index] > other->client->pers.max_slugs)
 			other->client->pers.inventory[index] = other->client->pers.max_slugs;
 	}
+
+	/*item = FindItem("Water");
+	if (item)
+	{
+		index = ITEM_INDEX(item);
+		other->client->pers.inventory[index] += item->quantity;
+		if (other->client->pers.inventory[index] > other->client->pers.max_slugs)
+			other->client->pers.inventory[index] = other->client->pers.max_slugs;
+	}*/
 
 	if (!(ent->spawnflags & DROPPED_ITEM) && (deathmatch->value))
 		SetRespawn (ent, ent->item->quantity);
@@ -408,6 +449,146 @@ void	Use_Invulnerability (edict_t *ent, gitem_t *item)
 
 //======================================================================
 
+void	Use_Water(edict_t* ent, gitem_t* item)
+{
+	ent->client->pers.inventory[ITEM_INDEX(item)]--;
+	ValidateSelectedItem(ent);
+
+	gi.bprintf(PRINT_HIGH, "Used Water!\n");
+}
+
+//======================================================================
+
+void	Use_Bandage(edict_t* ent, gitem_t* item)
+{
+	ent->client->pers.inventory[ITEM_INDEX(item)]--;
+	ValidateSelectedItem(ent);
+
+	gi.bprintf(PRINT_HIGH, "Used Bandage!\n");
+}
+
+//======================================================================
+
+void	Use_Mask(edict_t* ent, gitem_t* item)
+{
+	ent->client->pers.inventory[ITEM_INDEX(item)]--;
+	ValidateSelectedItem(ent);
+
+	gi.bprintf(PRINT_HIGH, "Used Mask!\n");
+}
+
+//======================================================================
+
+void	Use_Oatmeal(edict_t* ent, gitem_t* item)
+{
+	ent->client->pers.inventory[ITEM_INDEX(item)]--;
+	ValidateSelectedItem(ent);
+
+	gi.bprintf(PRINT_HIGH, "Used Oatmeal!\n");
+}
+
+//======================================================================
+
+void	Use_Antibiotics(edict_t* ent, gitem_t* item)
+{
+	ent->client->pers.inventory[ITEM_INDEX(item)]--;
+	ValidateSelectedItem(ent);
+
+	gi.bprintf(PRINT_HIGH, "Used Antibiotics!\n");
+}
+
+//======================================================================
+
+void	Use_Suicide(edict_t* ent, gitem_t* item)
+{
+	ent->client->pers.inventory[ITEM_INDEX(item)]--;
+	ValidateSelectedItem(ent);
+
+	gi.bprintf(PRINT_HIGH, "Used ???!\n");
+}
+
+//======================================================================
+
+void	Craft_Oatmeal(edict_t* ent, gitem_t* item)
+{
+	if (ent->client->pers.inventory[ITEM_INDEX(FindItem("Water"))] && ent->client->pers.inventory[ITEM_INDEX(FindItem("Oats"))]) {
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("Water"))]--;
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("Oats"))]--;
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("Oatmeal"))]++;
+		ValidateSelectedItem(ent);
+		gi.bprintf(PRINT_HIGH, "Crafted Oatmeal!\n");
+	}
+	else {
+		gi.bprintf(PRINT_HIGH, "You don't have the components for Oatmeal!\n");
+	}
+}
+
+//======================================================================
+
+void	Craft_Bandage(edict_t* ent, gitem_t* item)
+{
+	if (ent->client->pers.inventory[ITEM_INDEX(FindItem("Cloth"))] && ent->client->pers.inventory[ITEM_INDEX(FindItem("Alcohol"))]) {
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("Cloth"))]--;
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("Alcohol"))]--;
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("Bandage"))]++;
+		ValidateSelectedItem(ent);
+		gi.bprintf(PRINT_HIGH, "Crafted Bandage!\n");
+	}
+	else {
+		gi.bprintf(PRINT_HIGH, "You don't have the components for Bandage!\n");
+	}
+}
+
+//======================================================================
+
+void	Craft_Mask(edict_t* ent, gitem_t* item)
+{
+	if (ent->client->pers.inventory[ITEM_INDEX(FindItem("Water"))] && ent->client->pers.inventory[ITEM_INDEX(FindItem("Cloth"))]) {
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("Water"))]--;
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("Cloth"))]--;
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("Mask"))]++;
+		ValidateSelectedItem(ent);
+		gi.bprintf(PRINT_HIGH, "Crafted Mask!\n");
+	}
+	else {
+		gi.bprintf(PRINT_HIGH, "You don't have the components for Mask!\n");
+	}
+}
+
+//======================================================================
+
+void	Craft_Antibiotics(edict_t* ent, gitem_t* item)
+{
+	if (ent->client->pers.inventory[ITEM_INDEX(FindItem("Water"))] && ent->client->pers.inventory[ITEM_INDEX(FindItem("Shrooms"))]) {
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("Water"))]--;
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("Shrooms"))]--;
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("Antibiotics"))]++;
+		ValidateSelectedItem(ent);
+		gi.bprintf(PRINT_HIGH, "Crafted Antibiotics!\n");
+	}
+	else {
+		gi.bprintf(PRINT_HIGH, "You don't have the components for Antibiotics!\n");
+	}
+}
+
+//======================================================================
+
+void	Craft_Suicide(edict_t* ent, gitem_t* item)
+{
+	if (ent->client->pers.inventory[ITEM_INDEX(FindItem("Alcohol"))] && ent->client->pers.inventory[ITEM_INDEX(FindItem("Shrooms"))]) {
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("Alcohol"))]--;
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("Shrooms"))]--;
+		ent->client->pers.inventory[ITEM_INDEX(FindItem("???"))]++;
+		ValidateSelectedItem(ent);
+		gi.bprintf(PRINT_HIGH, "Crafted ???!\n");
+	}
+	else {
+		gi.bprintf(PRINT_HIGH, "You don't have the components for ???!\n");
+	}
+}
+
+//======================================================================
+
 void	Use_Silencer (edict_t *ent, gitem_t *item)
 {
 	ent->client->pers.inventory[ITEM_INDEX(item)]--;
@@ -464,6 +645,18 @@ qboolean Add_Ammo (edict_t *ent, gitem_t *item, int count)
 		max = ent->client->pers.max_cells;
 	else if (item->tag == AMMO_SLUGS)
 		max = ent->client->pers.max_slugs;
+	else if (item->tag == RESOURCE_WATER)
+		max = ent->client->pers.max_slugs;
+	else if (item->tag == RESOURCE_OATS)
+		max = ent->client->pers.max_slugs;
+	else if (item->tag == RESOURCE_SHROOMS)
+		max = ent->client->pers.max_slugs;
+	else if (item->tag == RESOURCE_ALCOHOL)
+		max = ent->client->pers.max_slugs;
+	else if (item->tag == RESOURCE_CLOTH)
+		max = ent->client->pers.max_slugs;
+	else if (item->tag == CRAFTABLE_OATMEAL)
+		max = 1;
 	else
 		return false;
 
@@ -1424,6 +1617,121 @@ always owned, never in the world
 /* precache */ "weapons/hgrent1a.wav weapons/hgrena1b.wav weapons/hgrenc1b.wav weapons/hgrenb1a.wav weapons/hgrenb2a.wav "
 	},
 
+/*QUAKED ammo_impactgrenades (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"ammo_impactgrenades",
+		Pickup_Ammo,
+		Use_Weapon,
+		Drop_Ammo,
+		Weapon_ImpactGrenade,
+		"misc/am_pkup.wav",
+		"models/items/ammo/grenades/medium/tris.md2", 0,
+		"models/weapons/v_handgr/tris.md2",
+		/* icon */		"a_grenades",
+		/* pickup */	"Impact Grenades",
+		/* width */		3,
+		5,
+		"grenades",
+		IT_AMMO | IT_WEAPON,
+		WEAP_GRENADES,
+		NULL,
+		AMMO_GRENADES,
+/* precache */ "weapons/hgrent1a.wav weapons/hgrena1b.wav weapons/hgrenc1b.wav weapons/hgrenb1a.wav weapons/hgrenb2a.wav "
+	},
+
+/*QUAKED ammo_stickygrenades (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"ammo_stickygrenades",
+		Pickup_Ammo,
+		Use_Weapon,
+		Drop_Ammo,
+		Weapon_StickyGrenade,
+		"misc/am_pkup.wav",
+		"models/items/ammo/grenades/medium/tris.md2", 0,
+		"models/weapons/v_handgr/tris.md2",
+		/* icon */		"a_grenades",
+		/* pickup */	"Sticky Grenades",
+		/* width */		3,
+		5,
+		"grenades",
+		IT_AMMO | IT_WEAPON,
+		WEAP_GRENADES,
+		NULL,
+		AMMO_GRENADES,
+		/* precache */ "weapons/hgrent1a.wav weapons/hgrena1b.wav weapons/hgrenc1b.wav weapons/hgrenb1a.wav weapons/hgrenb2a.wav "
+	},
+
+/*QUAKED ammo_lightgrenades (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"ammo_lightgrenades",
+		Pickup_Ammo,
+		Use_Weapon,
+		Drop_Ammo,
+		Weapon_LightGrenade,
+		"misc/am_pkup.wav",
+		"models/items/ammo/grenades/medium/tris.md2", 0,
+		"models/weapons/v_handgr/tris.md2",
+		/* icon */		"a_grenades",
+		/* pickup */	"Light Grenades",
+		/* width */		3,
+		5,
+		"grenades",
+		IT_AMMO | IT_WEAPON,
+		WEAP_GRENADES,
+		NULL,
+		AMMO_GRENADES,
+		/* precache */ "weapons/hgrent1a.wav weapons/hgrena1b.wav weapons/hgrenc1b.wav weapons/hgrenb1a.wav weapons/hgrenb2a.wav "
+	},
+
+/*QUAKED ammo_rocketgrenades (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"ammo_rocketgrenades",
+		Pickup_Ammo,
+		Use_Weapon,
+		Drop_Ammo,
+		Weapon_RocketGrenade,
+		"misc/am_pkup.wav",
+		"models/items/ammo/grenades/medium/tris.md2", 0,
+		"models/weapons/v_handgr/tris.md2",
+		/* icon */		"a_grenades",
+		/* pickup */	"Rocket Grenades",
+		/* width */		3,
+		5,
+		"grenades",
+		IT_AMMO | IT_WEAPON,
+		WEAP_GRENADES,
+		NULL,
+		AMMO_GRENADES,
+		/* precache */ "weapons/hgrent1a.wav weapons/hgrena1b.wav weapons/hgrenc1b.wav weapons/hgrenb1a.wav weapons/hgrenb2a.wav "
+	},
+
+/*QUAKED ammo_carpetgrenades (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"ammo_carpetgrenades",
+		Pickup_Ammo,
+		Use_Weapon,
+		Drop_Ammo,
+		Weapon_CarpetGrenade,
+		"misc/am_pkup.wav",
+		"models/items/ammo/grenades/medium/tris.md2", 0,
+		"models/weapons/v_handgr/tris.md2",
+		/* icon */		"a_grenades",
+		/* pickup */	"Carpet Grenades",
+		/* width */		3,
+		5,
+		"grenades",
+		IT_AMMO | IT_WEAPON,
+		WEAP_GRENADES,
+		NULL,
+		AMMO_GRENADES,
+		/* precache */ "weapons/hgrent1a.wav weapons/hgrena1b.wav weapons/hgrenc1b.wav weapons/hgrenb1a.wav weapons/hgrenb2a.wav "
+	},
+
 /*QUAKED weapon_grenadelauncher (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
@@ -1656,6 +1964,351 @@ always owned, never in the world
 		NULL,
 		AMMO_SLUGS,
 /* precache */ ""
+	},
+
+/*QUAKED resource_water (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"resource_water",
+		Pickup_Ammo,
+		Use_Water,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"Water",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		RESOURCE_WATER,
+		/* precache */ ""
+	},
+
+/*QUAKED resource_shrooms (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"resource_shrooms",
+		Pickup_Ammo,
+		NULL,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"Shrooms",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		RESOURCE_SHROOMS,
+		/* precache */ ""
+	},
+
+/*QUAKED resource_oats (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"resource_oats",
+		Pickup_Ammo,
+		NULL,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"Oats",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		RESOURCE_OATS,
+		/* precache */ ""
+	},
+
+/*QUAKED resource_cloth (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"resource_cloth",
+		Pickup_Ammo,
+		NULL,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"Cloth",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		RESOURCE_CLOTH,
+		/* precache */ ""
+	},
+
+/*QUAKED resource_alcohol (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"resource_alcohol",
+		Pickup_Ammo,
+		NULL,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"Alcohol",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		RESOURCE_ALCOHOL,
+		/* precache */ ""
+	},
+
+/*QUAKED resource_oatmeal (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"resource_oatmeal",
+		Pickup_Ammo,
+		Use_Oatmeal,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"Oatmeal",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		RESOURCE_OATMEAL,
+		/* precache */ ""
+	},
+
+/*QUAKED craftable_oatmeal (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"craftable_oatmeal",
+		Pickup_Ammo,
+		Craft_Oatmeal,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"Craft Oatmeal (Water + Oats)",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		CRAFTABLE_OATMEAL,
+		/* precache */ ""
+	},
+
+/*QUAKED resource_bandage (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"resource_bandage",
+		Pickup_Ammo,
+		Use_Bandage,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"Bandage",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		RESOURCE_BANDAGE,
+		/* precache */ ""
+	},
+
+/*QUAKED craftable_bandage (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"craftable_bandage",
+		Pickup_Ammo,
+		Craft_Bandage,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"Craft Bandage (Alcohol + Cloth)",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		CRAFTABLE_BANDAGE,
+		/* precache */ ""
+	},
+
+/*QUAKED resource_mask (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"resource_mask",
+		Pickup_Ammo,
+		Use_Mask,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"Mask",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		RESOURCE_MASK,
+		/* precache */ ""
+	},
+
+/*QUAKED craftable_mask (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"craftable_mask",
+		Pickup_Ammo,
+		Craft_Mask,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"Craft Mask (Water + Cloth)",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		CRAFTABLE_MASK,
+		/* precache */ ""
+	},
+
+/*QUAKED resource_antibiotics (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"resource_antibiotics",
+		Pickup_Ammo,
+		Use_Antibiotics,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"Antibiotics",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		RESOURCE_ANTIBIOTICS,
+		/* precache */ ""
+	},
+
+/*QUAKED craftable_antibiotics (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"craftable_antibiotics",
+		Pickup_Ammo,
+		Craft_Antibiotics,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"Craft Antibiotics (Water + Shrooms)",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		CRAFTABLE_ANTIBIOTICS,
+		/* precache */ ""
+	},
+
+/*QUAKED resource_suicide (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"resource_suicide",
+		Pickup_Ammo,
+		Use_Suicide,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"???",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		RESOURCE_SUICIDE,
+		/* precache */ ""
+	},
+
+/*QUAKED craftable_suicide (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"craftable_suicide",
+		Pickup_Ammo,
+		Craft_Suicide,
+		Drop_Ammo,
+		NULL,
+		"misc/am_pkup.wav",
+		"models/items/ammo/slugs/medium/tris.md2", 0,
+		NULL,
+		/* icon */		"a_slugs",
+		/* pickup */	"Craft ??? (Alcohol + Shrooms)",
+		/* width */		3,
+		10,
+		NULL,
+		IT_AMMO,
+		0,
+		NULL,
+		CRAFTABLE_SUICIDE,
+		/* precache */ ""
 	},
 
 

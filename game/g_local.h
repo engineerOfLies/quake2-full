@@ -108,11 +108,26 @@ typedef enum
 
 typedef enum
 {
-	RESOURCE_BREAD,
-	RESOURCE_WATER,
+	RESOURCE_OATMEAL, //satiates hunger and thirst
+	RESOURCE_BANDAGE, //increases health
+	RESOURCE_MASK, //reduces infection gain
+	RESOURCE_ANTIBIOTICS, //reduces infection
+	RESOURCE_SUICIDE, //kills the player
+	RESOURCE_SHROOMS,
+	RESOURCE_WATER, //satiates thirst
 	RESOURCE_CLOTH,
-	RESOURCE_ALCOHOL
+	RESOURCE_ALCOHOL,
+	RESOURCE_OATS,
 } resources_t;
+
+typedef enum
+{
+	CRAFTABLE_OATMEAL, //water+oats
+	CRAFTABLE_BANDAGE, //cloth+alcohol
+	CRAFTABLE_MASK, //cloth+water
+	CRAFTABLE_ANTIBIOTICS, //water+shrooms
+	CRAFTABLE_SUICIDE, //shrooms+alcohol
+} craftables_t;
 
 
 //deadflag
@@ -743,6 +758,10 @@ void fire_shotgun (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int k
 void fire_blaster (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed, int effect, qboolean hyper);
 void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius);
 void fire_grenade2 (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius, qboolean held);
+void fire_impactgrenade(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius, qboolean held);
+void fire_stickygrenade(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius, qboolean held);
+void fire_lightgrenade(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius, qboolean held);
+void fire_rocketgrenade(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius, qboolean held);
 void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius, int radius_damage);
 void fire_rail (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick);
 void fire_bfg (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius);
@@ -852,6 +871,12 @@ typedef struct
 	// values saved and restored from edicts when changing levels
 	int			health;
 	int			max_health;
+	int			infection;
+	int			thirst;
+	int			hunger;
+	int			max_infection;
+	int			max_thirst;
+	int			max_hunger;
 	int			savedFlags;
 
 	int			selected_item;
@@ -1065,6 +1090,12 @@ struct edict_s
 	float		last_move_time;
 
 	int			health;
+	int			infection;
+	int			thirst;
+	int			hunger;
+	int			max_infection;
+	int			max_thirst;
+	int			max_hunger;
 	int			max_health;
 	int			gib_health;
 	int			deadflag;
