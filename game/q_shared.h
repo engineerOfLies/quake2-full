@@ -1009,6 +1009,10 @@ typedef enum
 #define STAT_CHASE				16
 #define STAT_SPECTATOR			17
 
+#define STAT_INFECTION			18
+#define STAT_THIRST				19
+#define STAT_HUNGER				20
+
 #define	MAX_STATS				32
 
 

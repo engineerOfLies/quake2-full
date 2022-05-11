@@ -453,7 +453,7 @@ void	Use_Water(edict_t* ent, gitem_t* item)
 {
 	ent->client->pers.inventory[ITEM_INDEX(item)]--;
 	ValidateSelectedItem(ent);
-
+	ent->client->pers.thirst = max(ent->client->pers.thirst - 30, 0);
 	gi.bprintf(PRINT_HIGH, "Used Water!\n");
 }
 
@@ -463,7 +463,7 @@ void	Use_Bandage(edict_t* ent, gitem_t* item)
 {
 	ent->client->pers.inventory[ITEM_INDEX(item)]--;
 	ValidateSelectedItem(ent);
-
+	ent->health = min(ent->health + 30, ent->client->pers.max_health);
 	gi.bprintf(PRINT_HIGH, "Used Bandage!\n");
 }
 
@@ -473,7 +473,7 @@ void	Use_Mask(edict_t* ent, gitem_t* item)
 {
 	ent->client->pers.inventory[ITEM_INDEX(item)]--;
 	ValidateSelectedItem(ent);
-
+	ent->client->pers.infection = max(ent->client->pers.infection - 15, 0);
 	gi.bprintf(PRINT_HIGH, "Used Mask!\n");
 }
 
@@ -483,8 +483,41 @@ void	Use_Oatmeal(edict_t* ent, gitem_t* item)
 {
 	ent->client->pers.inventory[ITEM_INDEX(item)]--;
 	ValidateSelectedItem(ent);
-
+	ent->client->pers.hunger = max(ent->client->pers.hunger-30, 0);
 	gi.bprintf(PRINT_HIGH, "Used Oatmeal!\n");
+}
+
+//======================================================================
+
+void	Use_Oats(edict_t* ent, gitem_t* item)
+{
+	ent->client->pers.inventory[ITEM_INDEX(item)]--;
+	ValidateSelectedItem(ent);
+	ent->client->pers.hunger = max(ent->client->pers.hunger - 20, 0);
+	ent->client->pers.thirst = min(ent->client->pers.thirst + 20, ent->client->pers.max_thirst);
+	gi.bprintf(PRINT_HIGH, "Used Oats!\n");
+}
+
+//======================================================================
+
+void	Use_Shrooms(edict_t* ent, gitem_t* item)
+{
+	ent->client->pers.inventory[ITEM_INDEX(item)]--;
+	ValidateSelectedItem(ent);
+	ent->client->pers.hunger = max(ent->client->pers.hunger - 20, 0);
+	ent->client->pers.infection = min(ent->client->pers.infection + 20, ent->client->pers.max_infection);
+	gi.bprintf(PRINT_HIGH, "Used Shrooms!\n");
+}
+
+//======================================================================
+
+void	Use_Alcohol(edict_t* ent, gitem_t* item)
+{
+	ent->client->pers.inventory[ITEM_INDEX(item)]--;
+	ValidateSelectedItem(ent);
+	ent->client->pers.thirst = max(ent->client->pers.thirst - 20, 0);
+	ent->client->pers.hunger = min(ent->client->pers.hunger + 20, ent->client->pers.max_hunger);
+	gi.bprintf(PRINT_HIGH, "Used Alcohol!\n");
 }
 
 //======================================================================
@@ -493,7 +526,7 @@ void	Use_Antibiotics(edict_t* ent, gitem_t* item)
 {
 	ent->client->pers.inventory[ITEM_INDEX(item)]--;
 	ValidateSelectedItem(ent);
-
+	ent->client->pers.infection = max(ent->client->pers.infection - 30, 0);
 	gi.bprintf(PRINT_HIGH, "Used Antibiotics!\n");
 }
 
@@ -503,7 +536,7 @@ void	Use_Suicide(edict_t* ent, gitem_t* item)
 {
 	ent->client->pers.inventory[ITEM_INDEX(item)]--;
 	ValidateSelectedItem(ent);
-
+	ent->health = 1;
 	gi.bprintf(PRINT_HIGH, "Used ???!\n");
 }
 
@@ -2025,7 +2058,7 @@ always owned, never in the world
 	{
 		"resource_shrooms",
 		Pickup_Ammo,
-		NULL,
+		Use_Shrooms,
 		Drop_Ammo,
 		NULL,
 		"misc/am_pkup.wav",
@@ -2048,7 +2081,7 @@ always owned, never in the world
 	{
 		"resource_oats",
 		Pickup_Ammo,
-		NULL,
+		Use_Oats,
 		Drop_Ammo,
 		NULL,
 		"misc/am_pkup.wav",
@@ -2094,7 +2127,7 @@ always owned, never in the world
 	{
 		"resource_alcohol",
 		Pickup_Ammo,
-		NULL,
+		Use_Alcohol,
 		Drop_Ammo,
 		NULL,
 		"misc/am_pkup.wav",

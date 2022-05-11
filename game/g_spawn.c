@@ -656,6 +656,25 @@ char *single_statusbar =
 "xv	50 "
 "pic 0 "
 
+//infection
+"xv 300 "
+"num 5 18 "
+"xv 380 "
+"pic 0 "
+
+//thirst
+"xv 400 "
+"num 5 19 "
+"xv 480 "
+"pic 0 "
+
+//hunger
+"xv 500 "
+"num 5 20 "
+"xv 580 "
+"pic 0 "
+
+
 // ammo
 "if 2 "
 "	xv	100 "

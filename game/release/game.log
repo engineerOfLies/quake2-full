@@ -3,16 +3,16 @@
 D:\GameModQ2\quake2-full\game\g_items.c(48,30): warning C4211: nonstandard extension used: redefined extern to static
 D:\GameModQ2\quake2-full\game\g_items.c(49,30): warning C4211: nonstandard extension used: redefined extern to static
 D:\GameModQ2\quake2-full\game\g_items.c(50,28): warning C4211: nonstandard extension used: redefined extern to static
-D:\GameModQ2\quake2-full\game\g_items.c(512,43): warning C4100: 'item': unreferenced formal parameter
-D:\GameModQ2\quake2-full\game\g_items.c(528,43): warning C4100: 'item': unreferenced formal parameter
-D:\GameModQ2\quake2-full\game\g_items.c(544,40): warning C4100: 'item': unreferenced formal parameter
-D:\GameModQ2\quake2-full\game\g_items.c(560,47): warning C4100: 'item': unreferenced formal parameter
-D:\GameModQ2\quake2-full\game\g_items.c(576,43): warning C4100: 'item': unreferenced formal parameter
-D:\GameModQ2\quake2-full\game\g_items.c(781,35): warning C4100: 'ent': unreferenced formal parameter
-D:\GameModQ2\quake2-full\game\g_items.c(929,45): warning C4100: 'item': unreferenced formal parameter
-D:\GameModQ2\quake2-full\game\g_items.c(985,77): warning C4100: 'surf': unreferenced formal parameter
-D:\GameModQ2\quake2-full\game\g_items.c(985,58): warning C4100: 'plane': unreferenced formal parameter
-D:\GameModQ2\quake2-full\game\g_items.c(1116,55): warning C4100: 'activator': unreferenced formal parameter
-D:\GameModQ2\quake2-full\game\g_items.c(1116,39): warning C4100: 'other': unreferenced formal parameter
+D:\GameModQ2\quake2-full\game\g_items.c(545,43): warning C4100: 'item': unreferenced formal parameter
+D:\GameModQ2\quake2-full\game\g_items.c(561,43): warning C4100: 'item': unreferenced formal parameter
+D:\GameModQ2\quake2-full\game\g_items.c(577,40): warning C4100: 'item': unreferenced formal parameter
+D:\GameModQ2\quake2-full\game\g_items.c(593,47): warning C4100: 'item': unreferenced formal parameter
+D:\GameModQ2\quake2-full\game\g_items.c(609,43): warning C4100: 'item': unreferenced formal parameter
+D:\GameModQ2\quake2-full\game\g_items.c(814,35): warning C4100: 'ent': unreferenced formal parameter
+D:\GameModQ2\quake2-full\game\g_items.c(962,45): warning C4100: 'item': unreferenced formal parameter
+D:\GameModQ2\quake2-full\game\g_items.c(1018,77): warning C4100: 'surf': unreferenced formal parameter
+D:\GameModQ2\quake2-full\game\g_items.c(1018,58): warning C4100: 'plane': unreferenced formal parameter
+D:\GameModQ2\quake2-full\game\g_items.c(1149,55): warning C4100: 'activator': unreferenced formal parameter
+D:\GameModQ2\quake2-full\game\g_items.c(1149,39): warning C4100: 'other': unreferenced formal parameter
      Creating library .\..\release\gamex86.lib and object .\..\release\gamex86.exp
   game.vcxproj -> D:\SteamLibrary\steamapps\common\Quake 2\CoolMod2\gamex86.dll
