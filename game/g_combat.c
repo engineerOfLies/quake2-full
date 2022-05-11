@@ -101,6 +101,12 @@ void Killed (edict_t *targ, edict_t *inflictor, edict_t *attacker, int damage, v
 //		targ->svflags |= SVF_DEADMONSTER;	// now treat as a different content type
 		if (!(targ->monsterinfo.aiflags & AI_GOOD_GUY))
 		{
+			edict_t* drop = G_Spawn();
+			drop->classname = "Resource";
+			drop->s.origin[0] = targ->s.origin[0];
+			drop->s.origin[1] = targ->s.origin[1];
+			drop->s.origin[2] = targ->s.origin[2];
+			SpawnItem(drop, FindItem("Resource"));
 			level.killed_monsters++;
 			if (coop->value && attacker->client)
 				attacker->client->resp.score++;

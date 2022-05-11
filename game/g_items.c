@@ -778,6 +778,37 @@ qboolean Pickup_Health (edict_t *ent, edict_t *other)
 	return true;
 }
 
+qboolean Pickup_Resource(edict_t* ent, edict_t* other)
+{
+	int num_resources = ((int)rand()) % 3 + 1;
+	for(int i=0;i<num_resources; i++)
+	{
+		int item_index = ((int)rand()) % 5;
+		//gi.bprintf(PRINT_HIGH, "item_index = %d\n", item_index);
+		char* name;
+		switch (item_index) {
+		case 0:
+			name = "Oats";
+			break;
+		case 1:
+			name = "Shrooms";
+			break;
+		case 2:
+			name = "Cloth";
+			break;
+		case 3:
+			name = "Alcohol";
+			break;
+		default:
+			name = "Water";
+			break;
+		}
+		//gi.bprintf(PRINT_HIGH, "name = %s\n", name);
+		other->client->pers.inventory[ITEM_INDEX(FindItem(name))]++;
+	}
+	return true;
+}
+
 //======================================================================
 
 int ArmorIndex (edict_t *ent)
@@ -2754,6 +2785,27 @@ tank commander's head
 		NULL,
 /* icon */		"i_health",
 /* pickup */	"Health",
+/* width */		3,
+		0,
+		NULL,
+		0,
+		0,
+		NULL,
+		0,
+/* precache */ "items/s_health.wav items/n_health.wav items/l_health.wav items/m_health.wav"
+	},
+
+	{
+		NULL,
+		Pickup_Resource,
+		NULL,
+		NULL,
+		NULL,
+		"items/pkup.wav",
+		"models/items/keys/red_key/tris.md2", EF_ROTATE,
+		NULL,
+/* icon */		"i_health",
+/* pickup */	"Resource",
 /* width */		3,
 		0,
 		NULL,
