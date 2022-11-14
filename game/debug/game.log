@@ -1,0 +1,3 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(700,5): error MSB6006: "CL.exe" exited with code 2.
+cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+cl : command line error D8016: '/ZI' and '/Gy-' command-line options are incompatible
