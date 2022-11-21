@@ -11,3 +11,8 @@ Goals for this project are:
 - [x] README.md that explains the mod and its features
 - [ ] Modified Heads Up Display (HUD) reflecting a key feature of the mod
 - [ ] In-Game Help Screen explaining mod changes
+- [ ] Wave Based System
+- [ ] Rethemed Weapons
+- [ ] 5 Different Perks
+- [ ] 5 Different Drops / Item Pickups / Powerups
+- [ ] Point Based System / Buy Menu
