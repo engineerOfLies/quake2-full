@@ -847,12 +847,16 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 void Weapon_Blaster_Fire (edict_t *ent)
 {
 	int		damage;
+	vec3_t new_offset = { 10,10,10 };
+	vec3_t new_offset_2 = { 5, -10, 5 };
 
 	if (deathmatch->value)
 		damage = 15;
 	else
 		damage = 10;
 	Blaster_Fire (ent, vec3_origin, damage*10, false, EF_BLASTER);
+	Blaster_Fire(ent, new_offset, damage * 10, false, EF_BLASTER);
+	Blaster_Fire(ent, new_offset_2, damage * 10, false, EF_BLASTER);
 	ent->client->ps.gunframe++;
 }
 
