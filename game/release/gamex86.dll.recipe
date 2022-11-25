@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\git\Game-Mod-Q2-Fall2022\game\release\gamex86.dll</FullPath>
+      <FullPath>C:\Program Files (x86)\Steam\steamapps\common\Quake 2\Zombies\gamex86.dll</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
