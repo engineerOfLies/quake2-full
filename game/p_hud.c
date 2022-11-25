@@ -315,8 +315,8 @@ void HelpComputer (edict_t *ent)
 
 	//Create custom strings for help screen
 	char* modname = "Quake 2 Zombies Mod";
-	char* help1 = "Help Message 1";
-	char* help2 = "Help Message 2";
+	char* help1 = "Zombies spawn in waves.\nWaves become harder.\nSurvive!";
+	char* help2 = "Access Buy Menu with B.\nSpend points wisely!";
 
 	//Used to populate values dependent on the client
 	gclient_t* client;
