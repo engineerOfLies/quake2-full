@@ -1291,6 +1291,8 @@ ClientBegin
 
 called when a client has finished connecting, and is ready
 to be placed into the game.  This will happen every level load.
+
+PLAYER SPAWNS HERE
 ============
 */
 void ClientBegin (edict_t *ent)
@@ -1344,6 +1346,15 @@ void ClientBegin (edict_t *ent)
 			gi.bprintf (PRINT_HIGH, "%s entered the game\n", ent->client->pers.netname);
 		}
 	}
+
+	gclient_t* client;
+	level.current_entity = ent;
+	client = ent->client;
+
+	//Initialize the player's variables here
+	client->killCount = 0;
+	client->waveCount = 0;
+	client->perkCount = 0;
 
 	// make sure all view stuff is valid
 	ClientEndServerFrame (ent);
