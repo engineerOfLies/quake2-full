@@ -1,0 +1,55 @@
+﻿  Performing Custom Build Tools
+  Microsoft (R) Macro Assembler Version 14.33.31629.0
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+   Assembling: C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_aclipa.asm
+  Performing Custom Build Tools
+  Microsoft (R) Macro Assembler Version 14.33.31629.0
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+   Assembling: C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_draw16.asm
+  Performing Custom Build Tools
+  Microsoft (R) Macro Assembler Version 14.33.31629.0
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+   Assembling: C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_drawa.asm
+  Performing Custom Build Tools
+  Microsoft (R) Macro Assembler Version 14.33.31629.0
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+   Assembling: C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_edgea.asm
+  Performing Custom Build Tools
+  Microsoft (R) Macro Assembler Version 14.33.31629.0
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+   Assembling: C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_polysa.asm
+  Performing Custom Build Tools
+  Microsoft (R) Macro Assembler Version 14.33.31629.0
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+   Assembling: C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_scana.asm
+  Performing Custom Build Tools
+  Microsoft (R) Macro Assembler Version 14.33.31629.0
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+   Assembling: C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_spr8.asm
+  Performing Custom Build Tools
+  Microsoft (R) Macro Assembler Version 14.33.31629.0
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+   Assembling: C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_surf8.asm
+  Performing Custom Build Tools
+  Microsoft (R) Macro Assembler Version 14.33.31629.0
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+   Assembling: C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_varsa.asm
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(247,5): warning MSB8065: Custom build for item "r_aclipa.asm" succeeded, but specified output "c:\git\game-mod-q2-fall2022\release\.obj" has not been created. This may cause incremental build to work incorrectly.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(247,5): warning MSB8065: Custom build for item "r_draw16.asm" succeeded, but specified output "c:\git\game-mod-q2-fall2022\release\.obj" has not been created. This may cause incremental build to work incorrectly.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(247,5): warning MSB8065: Custom build for item "r_drawa.asm" succeeded, but specified output "c:\git\game-mod-q2-fall2022\release\.obj" has not been created. This may cause incremental build to work incorrectly.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(247,5): warning MSB8065: Custom build for item "r_edgea.asm" succeeded, but specified output "c:\git\game-mod-q2-fall2022\release\.obj" has not been created. This may cause incremental build to work incorrectly.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(247,5): warning MSB8065: Custom build for item "r_polysa.asm" succeeded, but specified output "c:\git\game-mod-q2-fall2022\release\.obj" has not been created. This may cause incremental build to work incorrectly.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(247,5): warning MSB8065: Custom build for item "r_scana.asm" succeeded, but specified output "c:\git\game-mod-q2-fall2022\release\.obj" has not been created. This may cause incremental build to work incorrectly.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(247,5): warning MSB8065: Custom build for item "r_spr8.asm" succeeded, but specified output "c:\git\game-mod-q2-fall2022\release\.obj" has not been created. This may cause incremental build to work incorrectly.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(247,5): warning MSB8065: Custom build for item "r_surf8.asm" succeeded, but specified output "c:\git\game-mod-q2-fall2022\release\.obj" has not been created. This may cause incremental build to work incorrectly.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(247,5): warning MSB8065: Custom build for item "r_varsa.asm" succeeded, but specified output "c:\git\game-mod-q2-fall2022\release\.obj" has not been created. This may cause incremental build to work incorrectly.
+LINK : fatal error LNK1181: cannot open input file '.\..\release\\.obj'

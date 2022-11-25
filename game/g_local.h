@@ -964,6 +964,7 @@ struct gclient_s
 	int killCount;
 	int waveCount;
 	int perkCount;
+	int pointCount;
 };
 
 

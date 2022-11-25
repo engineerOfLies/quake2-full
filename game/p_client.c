@@ -1355,6 +1355,7 @@ void ClientBegin (edict_t *ent)
 	client->killCount = 0;
 	client->waveCount = 0;
 	client->perkCount = 0;
+	client->pointCount = 0;
 
 	// make sure all view stuff is valid
 	ClientEndServerFrame (ent);
@@ -1572,6 +1573,25 @@ void PrintPmove (pmove_t *pm)
 
 /*
 ==============
+DrawZombiesUI
+
+Call this whenever the player's
+point count increases of a new
+wave is starting (wave count)
+
+Displays the wave number and
+point count of the player
+==============
+*/
+void DrawZombiesUI(edict_t* ent)
+{
+	//Draw the wave count and point count here (uses the console)
+	gi.cprintf(ent, PRINT_HIGH, "\n\nWave: %i   Points: %i\n\n", 
+		ent->client->waveCount, ent->client->pointCount);
+}
+
+/*
+==============
 ClientThink
 
 This will be called once for each client frame, which will
@@ -1752,8 +1772,11 @@ void ClientThink (edict_t *ent, usercmd_t *ucmd)
 		if (other->inuse && other->client->chase_target == ent)
 			UpdateChaseCam(other);
 	}
-}
 
+	//Draw the information to the player
+	//Temporary draw in ClientThink
+	DrawZombiesUI(ent);
+}
 
 /*
 ==============

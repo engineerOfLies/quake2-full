@@ -1,0 +1,18 @@
+^C:\GIT\GAME-MOD-Q2-FALL2022\REF_SOFT\R_ACLIPA.ASM
+ml /c /Cp /coff /Fo.\..\release\r_aclipa.obj /Zm /Zi C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_aclipa.asm
+^C:\GIT\GAME-MOD-Q2-FALL2022\REF_SOFT\R_DRAW16.ASM
+ml /c /Cp /coff /Fo.\..\release\r_draw16.obj /Zm /Zi C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_draw16.asm
+^C:\GIT\GAME-MOD-Q2-FALL2022\REF_SOFT\R_DRAWA.ASM
+ml /c /Cp /coff /Fo.\..\release\r_drawa.obj /Zm /Zi C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_drawa.asm
+^C:\GIT\GAME-MOD-Q2-FALL2022\REF_SOFT\R_EDGEA.ASM
+ml /c /Cp /coff /Fo.\..\release\r_edgea.obj /Zm /Zi C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_edgea.asm
+^C:\GIT\GAME-MOD-Q2-FALL2022\REF_SOFT\R_POLYSA.ASM
+ml /c /Cp /coff /Fo.\..\release\r_polysa.obj /Zm /Zi C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_polysa.asm
+^C:\GIT\GAME-MOD-Q2-FALL2022\REF_SOFT\R_SCANA.ASM
+ml /c /Cp /coff /Fo.\..\release\r_scana.obj /Zm /Zi C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_scana.asm
+^C:\GIT\GAME-MOD-Q2-FALL2022\REF_SOFT\R_SPR8.ASM
+ml /c /Cp /coff /Fo.\..\release\r_spr8.obj /Zm /Zi C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_spr8.asm
+^C:\GIT\GAME-MOD-Q2-FALL2022\REF_SOFT\R_SURF8.ASM
+ml /c /Cp /coff /Fo.\..\release\r_surf8.obj /Zm /Zi C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_surf8.asm
+^C:\GIT\GAME-MOD-Q2-FALL2022\REF_SOFT\R_VARSA.ASM
+ml /c /Cp /coff /Fo.\..\release\r_varsa.obj /Zm /Zi C:\git\Game-Mod-Q2-Fall2022\ref_soft\r_varsa.asm
