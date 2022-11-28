@@ -923,7 +923,8 @@ void Cmd_RandomGun_f(edict_t* ent)
 
 	int r = rand() % 8;
 
-	//somewhere here, check if gun already in player inventory
+	//TODO: somewhere here, check if gun already in player inventory
+
 	name = gunArr[r];
 
 	it = FindItem(name);
@@ -946,6 +947,24 @@ void Cmd_RandomGun_f(edict_t* ent)
 		if (it_ent->inuse)
 			G_FreeEdict(it_ent);
 	}
+}
+
+void ED_CallSpawn(edict_t* ent);
+
+void Cmd_SpawnMonster_f(edict_t* ent)
+{
+	edict_t* entToSpawn;
+
+	entToSpawn = G_Spawn();
+	//mess with this to call different monsters
+	entToSpawn->classname = "monster_berserk";
+	//mess with this to spawn in specific place
+	entToSpawn->s.origin[2] = ent->s.origin[2] + 20;
+	entToSpawn->s.origin[1] = ent->s.origin[1];
+	ED_CallSpawn(entToSpawn);
+	gi.unlinkentity(entToSpawn);
+	KillBox(entToSpawn);
+	gi.linkentity(entToSpawn);
 }
 
 /*
@@ -1037,6 +1056,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_PlayerList_f(ent);
 	else if (Q_stricmp(cmd, "randomgun") == 0)
 		Cmd_RandomGun_f(ent);
+	else if (Q_stricmp(cmd, "spawnmonster") == 0)
+		Cmd_SpawnMonster_f(ent);
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }
