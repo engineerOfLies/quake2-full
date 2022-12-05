@@ -137,6 +137,7 @@ void SP_monster_supertank (edict_t *self);
 void SP_monster_boss2 (edict_t *self);
 void SP_monster_jorg (edict_t *self);
 void SP_monster_boss3_stand (edict_t *self);
+void SP_monster_spawner(edict_t* self);
 
 void SP_monster_commander_body (edict_t *self);
 
@@ -264,6 +265,8 @@ spawn_t	spawns[] = {
 	{"turret_breach", SP_turret_breach},
 	{"turret_base", SP_turret_base},
 	{"turret_driver", SP_turret_driver},
+
+	{"monster_spawner", SP_monster_spawner},
 
 	{NULL, NULL}
 };

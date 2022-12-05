@@ -960,15 +960,16 @@ void Cmd_SpawnMonster_f(edict_t* ent)
 
 	entToSpawn = G_Spawn();
 	//mess with this to call different monsters
-	entToSpawn->classname = "monster_berserk";
+	entToSpawn->classname = "monster_spawner";
 	//mess with this to spawn in specific place
 	//entToSpawn->s.origin[2] = ent->s.origin[2] + 20;
 	//entToSpawn->s.origin[1] = ent->s.origin[1];
-	//26 40 24
+	//26 40 35
+	//-920 840 -10 is where i want the spawner entity to be
 
-	entToSpawn->s.origin[0] = 26;
-	entToSpawn->s.origin[1] = 40;
-	entToSpawn->s.origin[2] = 35;
+	entToSpawn->s.origin[0] = -920;
+	entToSpawn->s.origin[1] = 840;
+	entToSpawn->s.origin[2] = -20;
 
 	ED_CallSpawn(entToSpawn);
 	gi.unlinkentity(entToSpawn);
@@ -999,6 +1000,16 @@ void Cmd_Locate_f(edict_t* ent) {
 	gi.cprintf(ent, PRINT_HIGH, " z:");
 	gi.cprintf(ent, PRINT_HIGH, z_str);
 	
+}
+
+void Cmd_What_Time_f(edict_t* ent) {
+	float curr_time = level.time;
+	char time_str[20];
+
+	gcvt(curr_time, 2, time_str);
+
+	gi.cprintf(ent, PRINT_HIGH, "the time is: ");
+	gi.cprintf(ent, PRINT_HIGH, time_str);
 }
 
 /*
@@ -1094,6 +1105,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_SpawnMonster_f(ent);
 	else if (Q_stricmp(cmd, "locate") == 0)
 		Cmd_Locate_f(ent);
+	else if (Q_stricmp(cmd, "whattimeisit") == 0)
+		Cmd_What_Time_f(ent);
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }
