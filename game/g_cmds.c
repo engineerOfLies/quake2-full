@@ -953,18 +953,52 @@ void ED_CallSpawn(edict_t* ent);
 
 void Cmd_SpawnMonster_f(edict_t* ent)
 {
+	//ent=self
+	//code adapted from use_target_spawner in g_target.c
+
 	edict_t* entToSpawn;
 
 	entToSpawn = G_Spawn();
 	//mess with this to call different monsters
 	entToSpawn->classname = "monster_berserk";
 	//mess with this to spawn in specific place
-	entToSpawn->s.origin[2] = ent->s.origin[2] + 20;
-	entToSpawn->s.origin[1] = ent->s.origin[1];
+	//entToSpawn->s.origin[2] = ent->s.origin[2] + 20;
+	//entToSpawn->s.origin[1] = ent->s.origin[1];
+	//26 40 24
+
+	entToSpawn->s.origin[0] = 26;
+	entToSpawn->s.origin[1] = 40;
+	entToSpawn->s.origin[2] = 35;
+
 	ED_CallSpawn(entToSpawn);
 	gi.unlinkentity(entToSpawn);
 	KillBox(entToSpawn);
 	gi.linkentity(entToSpawn);
+	if (ent->speed)
+		VectorCopy(ent->movedir, entToSpawn->velocity);
+}
+
+void Cmd_Locate_f(edict_t* ent) {
+	vec_t x = roundf(ent->s.origin[0]);
+	char x_str[20];
+
+	vec_t y = roundf(ent->s.origin[1]);
+	char y_str[20];
+
+	vec_t z = roundf(ent->s.origin[2]);
+	char z_str[20];
+
+	gcvt(x, 2, x_str);
+	gcvt(y, 2, y_str);
+	gcvt(z, 2, z_str);
+
+	gi.cprintf(ent, PRINT_HIGH, " x:");
+	gi.cprintf(ent, PRINT_HIGH, x_str);
+	gi.cprintf(ent, PRINT_HIGH, " y:");
+	gi.cprintf(ent, PRINT_HIGH, y_str);
+	gi.cprintf(ent, PRINT_HIGH, " z:");
+	gi.cprintf(ent, PRINT_HIGH, z_str);
+	
 }
 
 /*
@@ -1058,6 +1092,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_RandomGun_f(ent);
 	else if (Q_stricmp(cmd, "spawnmonster") == 0)
 		Cmd_SpawnMonster_f(ent);
+	else if (Q_stricmp(cmd, "locate") == 0)
+		Cmd_Locate_f(ent);
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }
