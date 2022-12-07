@@ -393,6 +393,30 @@ void spawner_die(edict_t* self, edict_t* inflictor, edict_t* attacker, int damag
 	self->takedamage = DAMAGE_YES;
 }
 
+void spawner_spawn_one() {
+	edict_t* entToSpawn;
+
+	entToSpawn = G_Spawn();
+	//mess with this to call different monsters
+	entToSpawn->classname = "monster_berserk";
+
+	//DEATHMATCH/MULTIPLAYER - spawn spawner at 1300 650 470
+
+	entToSpawn->s.origin[0] = 1300;
+	entToSpawn->s.origin[1] = 500;
+	entToSpawn->s.origin[2] = 480;
+
+	ED_CallSpawn(entToSpawn);
+	gi.unlinkentity(entToSpawn);
+	KillBox(entToSpawn);
+	gi.linkentity(entToSpawn);
+	/*
+	if (ent->speed)
+		VectorCopy(ent->movedir, entToSpawn->velocity);
+		*/
+}
+
+
 /*QUAKED monster_berserk (1 .5 0) (-16 -16 -24) (16 16 32) Ambush Trigger_Spawn Sight
 */
 
@@ -444,6 +468,8 @@ void SP_monster_spawner (edict_t *self)
 	self->monsterinfo.scale = MODEL_SCALE;
 
 	gi.linkentity (self);
+	
+	spawner_spawn_one();
 
 	//walkmonster_start (self);
 }
