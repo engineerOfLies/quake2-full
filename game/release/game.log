@@ -17,17 +17,9 @@ C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(886,3): warning C4996: 'sp
 C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(894,4): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(909,11): warning C4101: 'give_all': unreferenced local variable
 C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(908,8): warning C4101: 'i': unreferenced local variable
-C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(992,2): warning C4996: 'gcvt': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _gcvt. See online help for details.
-C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(993,2): warning C4996: 'gcvt': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _gcvt. See online help for details.
 C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(994,2): warning C4996: 'gcvt': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _gcvt. See online help for details.
-C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(1009,2): warning C4996: 'gcvt': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _gcvt. See online help for details.
-  m_spawner.c
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(366,66): warning C4100: 'damage': unreferenced formal parameter
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(366,56): warning C4100: 'kick': unreferenced formal parameter
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(377,91): warning C4100: 'point': unreferenced formal parameter
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(377,76): warning C4100: 'damage': unreferenced formal parameter
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(377,42): warning C4100: 'inflictor': unreferenced formal parameter
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(379,7): warning C4101: 'n': unreferenced local variable
-  Generating Code...
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(995,2): warning C4996: 'gcvt': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _gcvt. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(996,2): warning C4996: 'gcvt': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _gcvt. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(1011,2): warning C4996: 'gcvt': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _gcvt. See online help for details.
      Creating library .\..\release\gamex86.lib and object .\..\release\gamex86.exp
   game.vcxproj -> C:\Program Files (x86)\Steam\steamapps\common\Quake 2\modq2\gamex86.dll

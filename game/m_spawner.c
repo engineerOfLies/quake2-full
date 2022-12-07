@@ -395,13 +395,18 @@ void spawner_die(edict_t* self, edict_t* inflictor, edict_t* attacker, int damag
 
 /*QUAKED monster_berserk (1 .5 0) (-16 -16 -24) (16 16 32) Ambush Trigger_Spawn Sight
 */
+
+//spawn function for the monster spawner
+//maybe start waves here and handle in diff function? copy code from spawnmonster cmd i made
 void SP_monster_spawner (edict_t *self)
 {
+	/*
 	if (deathmatch->value)
 	{
 		G_FreeEdict (self);
 		return;
 	}
+	*/
 
 	// pre-caches
 	sound_pain  = gi.soundindex ("berserk/berpain2.wav");

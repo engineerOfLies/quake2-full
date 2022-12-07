@@ -965,11 +965,13 @@ void Cmd_SpawnMonster_f(edict_t* ent)
 	//entToSpawn->s.origin[2] = ent->s.origin[2] + 20;
 	//entToSpawn->s.origin[1] = ent->s.origin[1];
 	//26 40 35
-	//-920 840 -10 is where i want the spawner entity to be
+	//-920 840 -30 is where i want the spawner entity to be IN SINGLEPLAYER
 
-	entToSpawn->s.origin[0] = -920;
-	entToSpawn->s.origin[1] = 840;
-	entToSpawn->s.origin[2] = -20;
+	//DEATHMATCH/MULTIPLAYER - spawn spawner at 1300 650 470
+
+	entToSpawn->s.origin[0] = 1200;
+	entToSpawn->s.origin[1] = 650;
+	entToSpawn->s.origin[2] = 460;
 
 	ED_CallSpawn(entToSpawn);
 	gi.unlinkentity(entToSpawn);
