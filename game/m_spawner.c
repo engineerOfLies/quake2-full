@@ -393,7 +393,7 @@ void spawner_die(edict_t* self, edict_t* inflictor, edict_t* attacker, int damag
 	self->takedamage = DAMAGE_YES;
 }
 
-void spawner_spawn_one() {
+void spawner_spawn_one(int loc_x, int loc_y, int loc_z) {
 	edict_t* entToSpawn;
 
 	entToSpawn = G_Spawn();
@@ -402,13 +402,13 @@ void spawner_spawn_one() {
 
 	//DEATHMATCH/MULTIPLAYER - spawn spawner at 1300 650 470
 
-	entToSpawn->s.origin[0] = 1300;
-	entToSpawn->s.origin[1] = 500;
-	entToSpawn->s.origin[2] = 480;
+	entToSpawn->s.origin[0] = loc_x;
+	entToSpawn->s.origin[1] = loc_y;
+	entToSpawn->s.origin[2] = loc_z;
 
 	ED_CallSpawn(entToSpawn);
 	gi.unlinkentity(entToSpawn);
-	KillBox(entToSpawn);
+	//KillBox(entToSpawn);
 	gi.linkentity(entToSpawn);
 	/*
 	if (ent->speed)
@@ -469,7 +469,20 @@ void SP_monster_spawner (edict_t *self)
 
 	gi.linkentity (self);
 	
-	spawner_spawn_one();
+	int i;
+	int r_x;
+	int r_y;
+	srand(time(NULL));
+
+	for (i = 0; i < 5; i++) {
+		r_x = rand() % 4;
+		r_y = rand() % 4;
+		spawner_spawn_one(1300 - (100*r_x), 500 + (100*r_y), 480);
+	}
+	currentWave += 1;
+
+	//call wave spawning function here?
+	//while loop maybe?
 
 	//walkmonster_start (self);
 }

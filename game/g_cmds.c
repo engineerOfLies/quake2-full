@@ -487,6 +487,7 @@ void Cmd_Inven_f (edict_t *ent)
 	{
 		gi.WriteShort (cl->pers.inventory[i]);
 	}
+
 	gi.unicast (ent, true);
 }
 
@@ -979,6 +980,12 @@ void Cmd_SpawnMonster_f(edict_t* ent)
 	gi.linkentity(entToSpawn);
 	if (ent->speed)
 		VectorCopy(ent->movedir, entToSpawn->velocity);
+
+	char wave_str[10];
+	sprintf(wave_str, "%d", currentWave);
+
+	gi.cprintf(ent, PRINT_HIGH, "Starting ZOMBIES MODE at Wave ");
+	gi.cprintf(ent, PRINT_HIGH, wave_str);
 }
 
 void Cmd_Locate_f(edict_t* ent) {

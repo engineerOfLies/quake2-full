@@ -107,6 +107,8 @@ The normal starting point for a level.
 */
 void SP_info_player_start(edict_t *self)
 {
+	//self->currentWave = 0;
+	//currentWave = 1;
 	if (!coop->value)
 		return;
 	if(Q_stricmp(level.mapname, "security") == 0)
@@ -122,6 +124,8 @@ potential spawning position for deathmatch games
 */
 void SP_info_player_deathmatch(edict_t *self)
 {
+	//self->currentWave = 0;
+	//currentWave = 1;
 	if (!deathmatch->value)
 	{
 		G_FreeEdict (self);

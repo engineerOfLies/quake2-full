@@ -550,6 +550,9 @@ extern	cvar_t	*flood_waitdelay;
 
 extern	cvar_t	*sv_maplist;
 
+//for mod
+extern int currentWave;
+
 #define world	(&g_edicts[0])
 
 // item spawnflags
@@ -1109,5 +1112,8 @@ struct edict_s
 	// common data blocks
 	moveinfo_t		moveinfo;
 	monsterinfo_t	monsterinfo;
+
+	//for mod
+	//int currentWave;
 };
 

@@ -71,6 +71,8 @@ cvar_t	*flood_waitdelay;
 
 cvar_t	*sv_maplist;
 
+int currentWave = 0;
+
 void SpawnEntities (char *mapname, char *entities, char *spawnpoint);
 void ClientThink (edict_t *ent, usercmd_t *cmd);
 qboolean ClientConnect (edict_t *ent, char *userinfo);
