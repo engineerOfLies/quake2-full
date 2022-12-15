@@ -7,5 +7,7 @@ C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(377,76): warning C4100:
 C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(377,42): warning C4100: 'inflictor': unreferenced formal parameter
 C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(379,7): warning C4101: 'n': unreferenced local variable
 C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(409,14): warning C4013: 'ED_CallSpawn' undefined; assuming extern returning int
+C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(427,3): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(452,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
      Creating library .\..\release\gamex86.lib and object .\..\release\gamex86.exp
   game.vcxproj -> C:\Program Files (x86)\Steam\steamapps\common\Quake 2\modq2\gamex86.dll
