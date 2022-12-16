@@ -161,8 +161,11 @@ DeathmatchScoreboardMessage
 
 ==================
 */
+
+//USING THIS TO DISPLAY HELP SCREEN INSTEAD
 void DeathmatchScoreboardMessage (edict_t *ent, edict_t *killer)
 {
+	/*
 	char	entry[1024];
 	char	string[1400];
 	int		stringlength;
@@ -248,6 +251,16 @@ void DeathmatchScoreboardMessage (edict_t *ent, edict_t *killer)
 
 	gi.WriteByte (svc_layout);
 	gi.WriteString (string);
+	*/
+	char  st[1024];
+
+	Com_sprintf(st, sizeof(st),		
+		"xv 0 yv 24 cstring2 \"%s\" ",
+		"HELP SCREEN\n\nThis is how to play this quake 2 mod.\nFILL THIS OUT BEFORE HANDING IN");
+
+	gi.WriteByte(svc_layout);
+	gi.WriteString(st);
+	gi.unicast(ent, true);
 }
 
 
@@ -334,7 +347,6 @@ void HelpComputer (edict_t *ent)
 	gi.WriteString (string);
 	gi.unicast (ent, true);
 }
-
 
 /*
 ==================
@@ -520,6 +532,8 @@ void G_SetStats (edict_t *ent)
 		ent->client->ps.stats[STAT_HELPICON] = 0;
 
 	ent->client->ps.stats[STAT_SPECTATOR] = 0;
+
+	ent->client->ps.stats[STAT_WAVE] = currentWave;
 }
 
 /*

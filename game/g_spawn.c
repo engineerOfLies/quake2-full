@@ -783,6 +783,13 @@ char *dm_statusbar =
   "xv 64 "
   "stat_string 16 "
 "endif "
+
+//MOD: current wave
+"yb	-96 "
+"xr -58 "
+"string2 \"WAVE\" "
+"yb -72 "
+"num 2 18 "
 ;
 
 

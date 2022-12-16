@@ -1,13 +1,11 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(500,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  m_spawner.c
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(366,66): warning C4100: 'damage': unreferenced formal parameter
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(366,56): warning C4100: 'kick': unreferenced formal parameter
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(377,91): warning C4100: 'point': unreferenced formal parameter
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(377,76): warning C4100: 'damage': unreferenced formal parameter
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(377,42): warning C4100: 'inflictor': unreferenced formal parameter
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(379,7): warning C4101: 'n': unreferenced local variable
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(409,14): warning C4013: 'ED_CallSpawn' undefined; assuming extern returning int
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(427,3): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\Audrey\git\quake2-game-mod-f22\game\m_spawner.c(452,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g_spawn.c
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_spawn.c(383,5): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_spawn.c(436,3): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_spawn.c(546,2): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_spawn.c(547,2): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_spawn.c(822,10): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_spawn.c(829,3): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_spawn.c(832,3): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
      Creating library .\..\release\gamex86.lib and object .\..\release\gamex86.exp
   game.vcxproj -> C:\Program Files (x86)\Steam\steamapps\common\Quake 2\modq2\gamex86.dll

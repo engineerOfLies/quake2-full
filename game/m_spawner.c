@@ -443,7 +443,7 @@ void spawner_next_wave(edict_t* self) {
 	for (i = 0; i < 5; i++) {
 		r_x = rand() % 4;
 		r_y = rand() % 4;
-		spawner_spawn_one(1300 - (100 * r_x), 500 + (100 * r_y), 480);
+		spawner_spawn_one((self->s.origin[0] + 100) - (100 * r_x), (self->s.origin[1] - 150) + (100 * r_y), self->s.origin[2] + 20);
 	}
 
 	char wave_str[10];
@@ -534,5 +534,7 @@ void SP_monster_spawner (edict_t *self)
 	self->think = spawner_next_wave;
 	self->nextthink = level.time + FRAMETIME;
 	
+
+
 	//walkmonster_start (self);
 }
