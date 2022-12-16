@@ -1,11 +1,26 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(500,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  g_spawn.c
-C:\Users\Audrey\git\quake2-game-mod-f22\game\g_spawn.c(383,5): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\Audrey\git\quake2-game-mod-f22\game\g_spawn.c(436,3): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\Audrey\git\quake2-game-mod-f22\game\g_spawn.c(546,2): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\Audrey\git\quake2-game-mod-f22\game\g_spawn.c(547,2): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\Audrey\git\quake2-game-mod-f22\game\g_spawn.c(822,10): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\Audrey\git\quake2-game-mod-f22\game\g_spawn.c(829,3): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\Audrey\git\quake2-game-mod-f22\game\g_spawn.c(832,3): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  g_cmds.c
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(35,8): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(58,9): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(59,9): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(724,11): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(727,10): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(810,10): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(811,10): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(812,10): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(823,9): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(830,8): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(877,13): warning C4459: declaration of 'st' hides global declaration
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_local.h(456,21): message : see declaration of 'st'
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(899,9): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(887,3): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(895,4): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(910,11): warning C4101: 'give_all': unreferenced local variable
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(909,8): warning C4101: 'i': unreferenced local variable
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(985,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(1024,2): warning C4996: 'gcvt': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _gcvt. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(1025,2): warning C4996: 'gcvt': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _gcvt. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(1026,2): warning C4996: 'gcvt': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _gcvt. See online help for details.
+C:\Users\Audrey\git\quake2-game-mod-f22\game\g_cmds.c(1041,2): warning C4996: 'gcvt': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _gcvt. See online help for details.
      Creating library .\..\release\gamex86.lib and object .\..\release\gamex86.exp
   game.vcxproj -> C:\Program Files (x86)\Steam\steamapps\common\Quake 2\modq2\gamex86.dll

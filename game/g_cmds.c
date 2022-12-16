@@ -952,7 +952,7 @@ void Cmd_RandomGun_f(edict_t* ent)
 
 void ED_CallSpawn(edict_t* ent);
 
-void Cmd_SpawnMonster_f(edict_t* ent)
+void Cmd_StartZombiesMod_f(edict_t* ent)
 {
 	//ent=self
 	//code adapted from use_target_spawner in g_target.c
@@ -987,6 +987,28 @@ void Cmd_SpawnMonster_f(edict_t* ent)
 	gi.cprintf(ent, PRINT_HIGH, "Starting ZOMBIES MODE at Wave ");
 	gi.cprintf(ent, PRINT_HIGH, wave_str);
 	*/
+}
+
+void Cmd_SpawnMonster_f(edict_t* ent) {
+	//ent=self
+	//code adapted from use_target_spawner in g_target.c
+
+	edict_t* entToSpawn;
+
+	entToSpawn = G_Spawn();
+	//mess with this to call different monsters
+	entToSpawn->classname = "monster_berserk";
+
+	entToSpawn->s.origin[0] = ent->s.origin[0] + 150;
+	entToSpawn->s.origin[1] = ent->s.origin[1] + 150;
+	entToSpawn->s.origin[2] = ent->s.origin[2] + 20;
+
+	ED_CallSpawn(entToSpawn);
+	gi.unlinkentity(entToSpawn);
+	KillBox(entToSpawn);
+	gi.linkentity(entToSpawn);
+	if (ent->speed)
+		VectorCopy(ent->movedir, entToSpawn->velocity);
 }
 
 void Cmd_Locate_f(edict_t* ent) {
@@ -1117,6 +1139,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_Locate_f(ent);
 	else if (Q_stricmp(cmd, "whattimeisit") == 0)
 		Cmd_What_Time_f(ent);
+	else if (Q_stricmp(cmd, "startzombies") == 0)
+		Cmd_StartZombiesMod_f(ent);
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }
